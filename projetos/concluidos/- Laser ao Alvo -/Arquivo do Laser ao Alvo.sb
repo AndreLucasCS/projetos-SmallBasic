@@ -63,7 +63,7 @@ YdoAlvoE = 350
 LimiteDoTempoRestante = 15
 InicioDaTempoRestante = 15
 TempoRestante = 15
-Pontuação = 99999
+Pontuação = 0
 
 ' Mostrando se é para começar o timer
 ComeçarTimer = "True"
