@@ -1,0 +1,199 @@
+
+GraphicsWindow.Show()
+GraphicsWindow.Height = 500
+GraphicsWindow.Width = 500
+
+Girar = "Yes"
+
+' Losângulo superior ---------------------
+
+' Vértice da Esquerda
+PoAX = 100
+PoAY = 65
+
+' Vértice Superior
+PoBX = 250
+PoBY = 15
+
+' Vértice da direita
+PoCX = 400
+PoCY = 65
+
+' Vérice Inferior
+PoDX = 250
+PoDY = 115
+
+
+
+LocalPoAX = PoAX
+LocalPoAY = PoAY
+
+LocalPoBX = PoBX
+LocalPoBY = PoBY
+
+LocalPoCX = PoCX
+LocalPoCY = PoCY
+
+LocalPoDX = PoDX
+LocalPoDY = PoDY
+
+' Comprimento = 300
+' Altura = 100
+
+' 150 e 50
+
+
+Timer.Interval = 100
+Timer.Tick = Desenhar
+
+
+Sub Desenhar
+  
+  GraphicsWindow.Clear()
+  
+  GraphicsWindow.KeyDown = VerificarTecla
+  
+  ' Losângulo inferior ----------------------
+  
+  ' Vértice da Esquerda
+  PoEX = PoAX
+  PoEY = PoAY + 130
+  
+  ' Vértice Superior
+  PoFX = PoBX
+  PoFY = PoBY + 130
+  
+  ' Vértice Direita
+  PoGX = PoCX
+  PoGY = PoCY + 130
+  
+  ' Vértice Inferior
+  PoHX = PoDX
+  PoHY = PoDY + 130
+  
+  ' Desenhando ---------------------------
+  
+  ' Desenhando Losângulo Superior
+  GraphicsWindow.DrawLine(PoAX,PoAY,PoBX,PoBY)
+  GraphicsWindow.DrawLine(PoBX,PoBY,PoCX,PoCY)
+  GraphicsWindow.DrawLine(PoCX,PoCY,PoDX,PoDY)
+  GraphicsWindow.DrawLine(PoDX,PoDY,PoAX,PoAY)
+  ' Desenhando Linhas Verticais
+  GraphicsWindow.DrawLine(PoAX,PoAY,PoEX,PoEY)
+  GraphicsWindow.DrawLine(PoBX,PoBY,PoFX,PoFY)
+  GraphicsWindow.DrawLine(PoCX,PoCY,PoGX,PoGY)
+  GraphicsWindow.DrawLine(PoDX,PoDY,PoHX,PoHY)
+  ' Desenhando Losângulo Inferior
+  GraphicsWindow.DrawLine(PoEX,PoEY,PoHX,PoHY)
+  GraphicsWindow.DrawLine(PoFX,PoFY,PoEX,PoEY)
+  GraphicsWindow.DrawLine(PoGX,PoGY,PoFX,PoFY)
+  GraphicsWindow.DrawLine(PoHX,PoHY,PoGX,PoGY)
+  
+EndSub 
+
+Sub VerificarTecla
+  If GraphicsWindow.LastKey = "A" Then
+    GirarParaEsquerda()
+  EndIf
+  
+  If GraphicsWindow.LastKey = "D" Then
+    GirarParaDireita()
+  EndIf 
+EndSub
+
+
+Sub GirarParaEsquerda
+  
+  ' Manipulação de pontos do losângulo superior
+  
+  ' Ponto A
+  
+  PoAX = PoAX + 3
+  PoAY = PoAY + 1
+  
+  If PoAX = LocalPoDX Then
+    PoAX = LocalPoAX
+    PoAY = LocalPoAY
+  EndIf
+  
+  ' Ponto B
+  
+  PoBX = PoBX - 3
+  PoBY = PoBY + 1
+  
+  If PoBX = LocalPoAX Then
+    PoBX = LocalPoBX
+    PoBY = LocalPoBY
+  EndIf
+  
+  ' Ponto C
+  
+  PoCX = PoCX - 3
+  PoCY = PoCY - 1
+  
+  If PoCX = LocalPoBX Then
+    PoCX = LocalPoCX
+    PoCY = LocalPoCY
+  EndIf
+  
+  ' Ponto D
+  
+  PoDX = PoDX + 3
+  PoDY = PoDY - 1
+  
+  If PoDX = LocalPoCX Then
+    PoDX = LocalPoDX
+    PoDY = LocalPoDY
+  EndIf
+  
+EndSub
+
+' -------------------------------------------------------------------------------
+
+Sub GirarParaDireita
+  
+  ' Manipulação de pontos do losângulo superior
+  
+  ' Ponto A
+  
+  PoAX = PoAX - 3
+  PoAY = PoAY - 1
+  
+  If PoAX = LocalPoAX - 3 Then
+    PoAX = LocalPoDX
+    PoAY = LocalPoDY
+  EndIf
+  
+  ' Ponto B
+  
+  PoBX = PoBX + 3
+  PoBY = PoBY - 1
+  
+  If PoBX = LocalPoBX + 3 Then
+    PoBX = LocalPoAX
+    PoBY = LocalPoAY
+  EndIf
+  
+  ' Ponto C
+  
+  PoCX = PoCX + 3
+  PoCY = PoCY + 1
+  
+  If PoCX = LocalPoCX + 3 Then
+    PoCX = LocalPoBX
+    PoCY = LocalPoBY
+  EndIf
+  
+  ' Ponto D
+  
+  PoDX = PoDX - 3
+  PoDY = PoDY + 1
+  
+  If PoDX = LocalPoDX - 3 Then
+    PoDX = LocalPoCX
+    PoDY = LocalPoCY
+  EndIf
+  
+EndSub
+
+

@@ -1,0 +1,69 @@
+
+' +===================+
+
+' Programa do Sandbox of Squares - The Interface Update
+
+' +===================+
+  
+  ' Versão 2, The Interface Update
+  ' Criação: 25/01/25
+  ' Dev.: André Lucas de C. Sousa
+  
+GraphicsWindow.Show()
+GraphicsWindow.Top = 55
+GraphicsWindow.Left = 25
+GraphicsWindow.Width = 900
+GraphicsWindow.Height = 600
+
+' ---------------------------------------------------------------------------------
+
+' DESENHANDO INTERFACE
+
+BarraFerramentasVisivel = "True"
+ExplorarVisivel = "True"
+ProriedadesVisivel = "True"
+
+DesenharInterface()
+
+Sub DesenharInterface
+  
+  If ExplorarVisivel = "True" Then
+    GraphicsWindow.BrushColor = GraphicsWindow.GetColorFromRGB(219,219,219)
+    GraphicsWindow.PenColor = "Black"
+    GraphicsWindow.FillRectangle(1,1,899,80)
+    GraphicsWindow.DrawRectangle(1,1,899,80)
+    GraphicsWindow.BrushColor = "Black"
+   
+    BotaoSelecionar = Controls.AddButton("Selecio.",15,15)
+    Controls.SetSize(BotaoSelecionar,70,50)
+    
+    BotaoMover = Controls.AddButton("Mover",100,15)
+    Controls.SetSize(BotaoMover,70,50)
+    
+    BotaoDimencionar = Controls.AddButton("Dimenci.",185,15)
+    Controls.SetSize(BotaoDimencionar,70,50)
+    
+    BotaoGirar = Controls.AddButton("Girar",270,15)
+    Controls.SetSize(BotaoGirar,70,50)
+    
+    GraphicsWindow.DrawLine(355,10,355,70)
+    
+    BotaoConfiguracoes = Controls.AddButton("Configu.",370,15)
+    Controls.SetSize(BotaoConfiguracoes,90,25)
+    
+    BotaoPincel = Controls.AddButton("Pincel",370,40)
+    Controls.SetSize(BotaoPincel,90,25)
+  
+    BotaoTutorial = Controls.AddButton("Tutorial",475,15)
+    Controls.SetSize(BotaoTutorial,90,25)
+  
+    BotaoExibir = Controls.AddButton("Exibir",475,40)
+    Controls.SetSize(BotaoExibir,90,25)
+    
+  Else
+    
+    ' ?
+    
+  EndIf
+  
+EndSub

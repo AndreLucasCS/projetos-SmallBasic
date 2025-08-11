@@ -1,0 +1,62 @@
+
+GraphicsWindow.Top = 50
+GraphicsWindow.Left = 25
+GraphicsWindow.Height = 600
+GraphicsWindow.Width = 1200
+GraphicsWindow.CanResize = "False"
+
+GraphicsWindow.KeyDown = VerificaçãoDeTecla
+
+XdaParedeI = 450
+YdaParedeI = 225
+WdaParedeI = 300
+HdaParedeI = 150
+
+Sub VerificaçãoDeTecla
+  
+  If GraphicsWindow.LastKey = "W" Then
+    
+    GraphicsWindow.Clear()
+    WdaParedeI = WdaParedeI + 4
+    HdaParedeI = HdaParedeI + 2
+    XdaParedeI = XdaParedeI - 2
+    YdaParedeI = YdaParedeI - 1
+    
+  EndIf
+  
+  If GraphicsWindow.LastKey = "S" Then
+    
+    GraphicsWindow.Clear()
+    WdaParedeI = WdaParedeI - 4
+    HdaParedeI = HdaParedeI - 2
+    XdaParedeI = XdaParedeI + 2
+    YdaParedeI = YdaParedeI + 1
+    
+  EndIf
+  
+  If GraphicsWindow.LastKey = "D" Then
+    GraphicsWindow.Clear()
+    XdaParedeI = XdaParedeI - 4
+  EndIf
+  
+  If GraphicsWindow.LastKey = "A" Then
+    GraphicsWindow.Clear()
+    XdaParedeI = XdaParedeI + 4
+  EndIf
+  
+  DesenhandoInterface()
+  
+EndSub
+
+Sub DesenhandoInterface
+  GraphicsWindow.BackgroundColor = "Black"
+  GraphicsWindow.PenColor = "Green"
+  
+  GraphicsWindow.DrawRectangle(XdaParedeI,YdaParedeI,WdaParedeI,HdaParedeI)
+  GraphicsWindow.DrawLine(0,0,XdaParedeI,YdaParedeI)
+  GraphicsWindow.DrawLine(1200,0,XdaParedeI+WdaParedeI,YdaParedeI)
+  GraphicsWindow.DrawLine(0,600,XdaParedeI,YdaParedeI+HdaParedeI)
+  GraphicsWindow.DrawLine(1200,600,XdaParedeI+WdaParedeI,YdaParedeI+HdaParedeI)
+  
+EndSub
+  

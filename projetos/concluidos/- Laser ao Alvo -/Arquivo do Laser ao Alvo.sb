@@ -1,0 +1,1343 @@
+'+=================================+
+
+' Programa de Laser ao Alvo
+
+'+=================================+
+
+' Mostrando e transformando a janela
+GraphicsWindow.Show()
+GraphicsWindow.Height = 600
+GraphicsWindow.Width = 1000
+GraphicsWindow.Top = 35
+GraphicsWindow.Left = 10
+GraphicsWindow.CanResize = "False"
+GraphicsWindow.Title = "- Laser ao Alvo -"
+
+BloquearControles = "False"
+
+' Dando inicio ao programa ao clicar em uma tecla
+GraphicsWindow.KeyDown = ExeProgram
+ 
+' Atirando ao clicar no mouse
+GraphicsWindow.MouseDown = AtirarLaser
+
+' Executando ações ao clicar botões
+Controls.ButtonClicked = BotaoClicado
+
+' Timer da criação dos alvos
+Timer.Interval = 1000
+Timer.Pause()
+Timer.Tick = TimerDoPrograma
+
+
+' Variaveis das vértices principais
+XdaVerticePrincipalA = 480
+YdaVerticePrincipalA = 280
+  
+XdaVerticePrincipalB = 480
+YdaVerticePrincipalB = 320
+
+' Variáveis do limite do jogador
+LimiteD = "False"
+LimiteA = "False"
+LimiteW = "False"
+LimiteS = "False"
+
+' Variáveis da posição inicial dos alvos
+XdoAlvoA = 380
+YdoAlvoA = 200
+
+XdoAlvoB = 550
+YdoAlvoB = 270
+
+XdoAlvoC = 645
+YdoAlvoC = 205
+
+XdoAlvoD = 340
+YdoAlvoD = 290
+
+XdoAlvoE = 395
+YdoAlvoE = 350
+
+' Variaveis dos detalhes inferiores
+LimiteDoTempoRestante = 15
+InicioDaTempoRestante = 15
+TempoRestante = 15
+Pontuação = 99999
+
+' Mostrando se é para começar o timer
+ComeçarTimer = "True"
+
+' Apresentar tela inicial
+TelaInicial()
+
+
+' ====================================================================
+
+' SUB DO PROGRAMA
+
+' Sub do Programa ----------------------------------------------------------------------------------------------------
+Sub ExeProgram
+  
+  ' Ligando timer para gerar alvos e bombas
+  If ComeçarTimer = "True" Then
+    Timer.Resume()
+    ComeçarTimer = "False"
+  EndIf
+  
+  
+  ' Limpando janela
+  GraphicsWindow.Clear()
+  
+  
+  ' =====================================================================
+  
+  ' CAPTURANDO AS TECLAS PARA EXECUTAR AÇÕES
+  
+  ' Verificando se perdeu o jogo
+  If BloquearControles = "False" Then
+    
+    ' Movimentação ---------------------------------------------------------------------------
+    
+    ' Ir para esquerda
+    If GraphicsWindow.LastKey = "A" And LimiteA = "False" Then
+      XdaVerticePrincipalA = XdaVerticePrincipalA - 8 * DuplicarVelocidade
+      XdaVerticePrincipalB = XdaVerticePrincipalB - 10 * DuplicarVelocidade
+    EndIf
+    
+    ' Ir para direita
+    If GraphicsWindow.LastKey = "D" And LimiteD = "False" Then
+      XdaVerticePrincipalA = XdaVerticePrincipalA + 8 * DuplicarVelocidade
+      XdaVerticePrincipalB = XdaVerticePrincipalB + 10 * DuplicarVelocidade
+    EndIf
+    
+    ' Ir para cima
+    If GraphicsWindow.LastKey = "W" And LimiteW = "False" Then
+      YdaVerticePrincipalA = YdaVerticePrincipalA - 6 * DuplicarVelocidade
+      YdaVerticePrincipalB = YdaVerticePrincipalB - 8 * DuplicarVelocidade
+    EndIf
+    
+    ' Ir para baixo
+    If GraphicsWindow.LastKey = "S" And LimiteS = "False" Then
+      YdaVerticePrincipalA = YdaVerticePrincipalA + 6 * DuplicarVelocidade
+      YdaVerticePrincipalB = YdaVerticePrincipalB + 8 * DuplicarVelocidade
+    EndIf
+    
+    
+    ' Atirar ------------------------------------------------------------------------
+    
+    If GraphicsWindow.LastKey = "Return" Then
+      AtirarLaser()
+    EndIf
+    
+  EndIf
+  
+  ' =======================================================================
+  
+  ' VERIFINDO SE A BOMBA-LASER
+  
+  If iniciarContagemDaAçãoDaBomba = "True" Then
+    
+    If XdaVerticePrincipalA + 20 > XdoPontoAdaBombaNaTela And XdaVerticePrincipalA + 20 < XdoPontoBdaBombaNaTela And YdaVerticePrincipalA + 20 > 240 And YdaVerticePrincipalA + 20 < 360 Then
+      PerdeuPelaBombaLaser = "True"
+      Perdeu()
+    EndIf
+    
+    
+  EndIf
+  
+  ' =======================================================================
+  
+  ' DEFININDO AS OUTRAS VÉRTICES DO PARALELEPÍPEDO
+  
+  ' Quadrilátero Superior
+  
+  XdaVerticeC = XdaVerticePrincipalB + 40
+  YdaVerticeC = YdaVerticePrincipalB
+  
+  XdaVerticeD = XdaVerticePrincipalA + 40
+  YdaVerticeD = YdaVerticePrincipalA
+  
+  ' Quadrilátero Inferior
+  
+  XdaVerticeE = XdaVerticePrincipalA
+  YdaVerticeE = YdaVerticePrincipalA + 40
+  
+  XdaVerticeF = XdaVerticePrincipalB
+  YdaVerticeF = YdaVerticePrincipalB + 40
+  
+  XdaVerticeG = XdaVerticeC
+  YdaVerticeG = YdaVerticeC + 40
+  
+  XdaVerticeH = XdaVerticeD
+  YdaVerticeH = YdaVerticeD + 40
+  
+  
+  ' ==================================================================
+  
+  ' LIMITAÇÕES DO JOGADOR
+  
+  ' De ir para direita
+  If XdaVerticePrincipalB > 870 Then
+    LimiteD = "True"
+  Else
+    LimiteD = "False"
+  EndIf
+  
+  ' De ir para esquerda
+  If XdaVerticePrincipalB < 70 Then
+    LimiteA = "True"
+  Else
+    LimiteA = "False"
+  EndIf
+  
+  ' De ir para baixo
+  If YdaVerticePrincipalB > 510 Then
+    LimiteS = "True"
+  Else
+    LimiteS = "False"
+  EndIf
+  
+  ' De ir para cima
+  If YdaVerticePrincipalB < 50 Then
+    LimiteW = "True"
+  Else
+    LimiteW = "False"
+  EndIf
+  
+  ' Ativando o sub DesenhandoInterface
+  DesenhandoInterface()
+  
+EndSub
+
+' ================================================================
+
+' BOTÃO CLICADO
+
+' Sub dos botões clicados 
+Sub BotaoClicado
+  
+  Sound.PlayClickAndWait()
+  
+  ' Vericando ultimo botão clicado -----------------------------------------------------------
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Voltar a tela inicial" Then
+    TempoRestante = InicioDaTempoRestante
+    PerdeuPelaBombaLaser = "False"
+    ComeçarTimer = "True"
+    
+    ' Reiniciando as variaveis dos times
+    TimerDaGeraçãoDosAlvos = 0
+    SegundosParaGerarAlvos = 20
+    TempoRestante = InicioDaTempoRestante
+    
+    TelaInicial()
+  EndIf
+  
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Fazer um Tutorial" Then
+    Tutorial()
+  EndIf
+  
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Ir a LaserStore" Then
+    LaserStore()
+  EndIf
+  
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Voltar ao inicío" Then
+    
+    BloquearControles = "True"
+    Timer.Pause()
+    ComeçarTimer = "True"
+    PerdeuPelaBombaLaser = "False"
+    GraphicsWindow.Clear()
+    
+    ' Reiniciando as variaveis dos times
+    TimerDaGeraçãoDosAlvos = 0
+    SegundosParaGerarAlvos = 20
+    TempoRestante = InicioDaTempoRestante
+    
+    TelaInicial()
+    
+    GraphicsWindow.Clear()
+    
+    TelaInicial()
+    
+  EndIf
+  
+  
+  ' Botões de outras telas ----------+----------+----------+----------+----------+---------+----------
+  
+  ' Verificando botões do tutorial -----------------------------------------------------------------
+  
+  ' Se o botão for "<"
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "<" Then
+    
+    ' Verificando se o tutorial está aberto
+    If TutorialAberto = "True" Then
+      
+      ' Ao clicar no botão voltar passos
+      PassoNoTutorial = PassoNoTutorial - 1
+      
+      ' Se o passo for menor que 1, ir ao passo 7
+      If PassoNoTutorial < 1 Then
+        PassoNoTutorial = 7
+      EndIf
+      
+      ' Executar o Tutorial
+      Tutorial()
+    EndIf
+    
+    
+    ' Verificando se a LaserStore está aberta
+    If LaserStoreAberta = "True" Then
+      
+      ' Ao clicar no botão voltar cor da customização
+      NumeroDaCorDaCustomização = NumeroDaCorDaCustomização - 1
+      
+      ' Se a cor da customização for menor que 1, ir a cor da customização 7
+      If NumeroDaCorDaCustomização < 1 Then
+        NumeroDaCorDaCustomização = 7
+      EndIf
+      
+      ' Executar a LaserStore
+      LaserStore()
+      
+      ' Verificando o número da cor da customização para mudar a cor da customização e o número do mesmo
+      If NumeroDaCorDaCustomização = 1 Then
+        CorDaCustomização = "Preto"
+        NomeDaCorDaCustomização = "Black"
+      EndIf
+      
+      If NumeroDaCorDaCustomização = 2 Then
+        CorDaCustomização = "Azul"
+        NomeDaCorDaCustomização = "Blue"
+      EndIf
+      
+      If NumeroDaCorDaCustomização = 3 Then
+        CorDaCustomização = "Verde"
+        NomeDaCorDaCustomização = "Green"
+      EndIf
+      
+      If NumeroDaCorDaCustomização = 4 Then
+        CorDaCustomização = "Cinza"
+        NomeDaCorDaCustomização = "Gray"
+      EndIf
+      
+      If NumeroDaCorDaCustomização = 5 Then
+        CorDaCustomização = "Ciano"
+        NomeDaCorDaCustomização = "Cyan"
+      EndIf
+      
+      If NumeroDaCorDaCustomização = 6 Then
+        CorDaCustomização = "Amarelo"
+        NomeDaCorDaCustomização = "Yellow"
+      EndIf
+      
+      If NumeroDaCorDaCustomização = 7 Then
+        CorDaCustomização = "Vermelho"
+        NomeDaCorDaCustomização = "DarkRed"
+      EndIf
+      
+      ' Tampando a apresentação do nivel do item para mostrar a cor da customização
+      GraphicsWindow.BrushColor = "White"
+      GraphicsWindow.FillRectangle(770,290,60,40)
+      GraphicsWindow.BrushColor = "Black"
+      GraphicsWindow.DrawText(790,290,CorDaCustomização)
+      Controls.AddButton("<",750,285)
+      Controls.AddButton(">",850,285)
+      
+      
+    EndIf
+    
+    
+  EndIf
+  
+  
+  ' Se o botão for ">"
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = ">" Then
+    
+    ' Verificando se o tutorial está aberto
+    If TutorialAberto = "True" Then
+      
+      ' Ao clicar no botão prosseguir com os passos
+      PassoNoTutorial = PassoNoTutorial + 1
+      
+      ' Se o passo for maior que 7, voltar para o passo 1
+      If PassoNoTutorial > 7 Then
+        PassoNoTutorial = 1
+      EndIf
+      
+      ' Executando o tutorial
+      Tutorial()
+      
+    EndIf
+    
+    ' Verificando se a LaserStore está aberta
+    If LaserStoreAberta = "True" Then
+      
+      ' Ao clicar no botão prosseguir com a cor da customização
+      NumeroDaCorDaCustomização = NumeroDaCorDaCustomização + 1
+      
+      ' Se a cor da customização for maior que 7 voltar a cor da customização 1
+      If NumeroDaCorDaCustomização > 7 Then
+        NumeroDaCorDaCustomização = 1
+      EndIf
+      
+      ' Executando a LaserStore
+      LaserStore()
+      
+      ' Verificando o número da cor da customização para mudar a cor da customização e o número do mesmo
+      If NumeroDaCorDaCustomização = 1 Then
+        CorDaCustomização = "Preto"
+        NomeDaCorDaCustomização = "Black"
+      EndIf
+      
+      If NumeroDaCorDaCustomização = 2 Then
+        CorDaCustomização = "Azul"
+        NomeDaCorDaCustomização = "Blue"
+      EndIf
+      
+      If NumeroDaCorDaCustomização = 3 Then
+        CorDaCustomização = "Verde"
+        NomeDaCorDaCustomização = "Green"
+      EndIf
+      
+      If NumeroDaCorDaCustomização = 4 Then
+        CorDaCustomização = "Cinza"
+        NomeDaCorDaCustomização = "Gray"
+      EndIf
+      
+      If NumeroDaCorDaCustomização = 5 Then
+        CorDaCustomização = "Ciano"
+        NomeDaCorDaCustomização = "Cyan"
+      EndIf
+      
+      If NumeroDaCorDaCustomização = 6 Then
+        CorDaCustomização = "Amarelo"
+        NomeDaCorDaCustomização = "Yellow"
+      EndIf
+      
+      If NumeroDaCorDaCustomização = 7 Then
+        CorDaCustomização = "Vermelho"
+        NomeDaCorDaCustomização = "DarkRed"
+      EndIf
+      
+      ' Tampando a apresentação do nivel do item para mostrar a cor da customização
+      GraphicsWindow.BrushColor = "White"
+      GraphicsWindow.FillRectangle(770,290,60,40)
+      GraphicsWindow.BrushColor = "Black"
+      GraphicsWindow.DrawText(790,290,CorDaCustomização)
+      Controls.AddButton("<",750,285)
+      Controls.AddButton(">",850,285)
+      
+    EndIf
+    
+    
+  EndIf
+  
+  ' Verificando botões da LaserStore -------------------------------------------------------------
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Melhorar limite de tempo" Then
+    TituloDaCompra = "Melhorar limite de tempo"
+    Linha1DosDetalhesDaCompra = "Quando você acerta um alvo, você ganha mais tempo."
+    Linha2DosDetalhesDaCompra = "Porém, há um limite de quanto tempo você pode "
+    Linha3DosDetalhesDaCompra = "ganhar, expanda este limite melhorando essa opção"
+    Preço = PreçoDoLimiteDeTempo
+    Nivel = NivelDoLimiteDoTempo
+    LaserStore()
+  EndIf
+  
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Melhorar intervalo entre gerações" Then
+    TituloDaCompra = "Melhorar intervalo entre gerações"
+    Linha1DosDetalhesDaCompra = "A cada momento os alvos mudam de posição num"
+    Linha2DosDetalhesDaCompra = "intervalo cada vez mais curto, diminua a velociadade"
+    Linha3DosDetalhesDaCompra = "desse processo melhorando esta opção."
+    Preço = PreçoDoIntervaloEntreGerações
+    Nivel = NivelDoIntervaloEntreGerações
+    LaserStore()
+  EndIf
+  
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Melhorar velocidade" Then
+    TituloDaCompra = "Melhorar velocidade"
+    Linha1DosDetalhesDaCompra = "Sua nave é bem devagar, mas ao melhorar essa opção"
+    Linha2DosDetalhesDaCompra = "você duplica essa velocidade!"
+    Linha3DosDetalhesDaCompra = " "
+    Preço = PreçoDaVelocidade
+    Nivel = NivelDaVelocidade
+    LaserStore()
+  EndIf
+  
+  
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Melhorar recompensa do alvo" Then
+    TituloDaCompra = "Melhorar recompensa do alvo"
+    Linha1DosDetalhesDaCompra = "Ao acertar um alvo você ganha uma recompensa em" 
+    Linha2DosDetalhesDaCompra = "pontos, aprimore essa recompensa melhorando essa"
+    Linha3DosDetalhesDaCompra = "opção."
+    Preço = PreçoDaRecompensaDoAlvo
+    Nivel = NivelDaRecompensaDoAlvo
+    LaserStore()
+  EndIf
+  
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Customizar cor da nave" Then
+    TituloDaCompra = "Customizar cor da nave"
+    Linha1DosDetalhesDaCompra = "Customize a cor da sua nave do jeito que quiser!"
+    Linha2DosDetalhesDaCompra = "Mude a cor clicando nos botões < e >"
+    Linha3DosDetalhesDaCompra = " "
+    Preço = PreçoDaCustomizaçãoDaCorDaNave
+    Nivel = 0
+    LaserStore()
+    GraphicsWindow.BrushColor = "White"
+    GraphicsWindow.FillRectangle(770,290,60,40)
+    GraphicsWindow.BrushColor = "Black"
+    GraphicsWindow.DrawText(790,290,CorDaCustomização)
+    Controls.AddButton("<",750,285)
+    Controls.AddButton(">",850,285)
+  EndIf
+  
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Customizar cor do laser" Then
+    TituloDaCompra = "Customizar cor do laser"
+    Linha1DosDetalhesDaCompra = "Customize a cor do seu laser do jeito que quiser!"
+    Linha2DosDetalhesDaCompra = "Mude a cor clicando nos botões < e >"
+    Linha3DosDetalhesDaCompra = " "
+    Preço = PreçoDaCustomizaçãoDaCorDaNave
+    Nivel = 0
+    LaserStore()
+    GraphicsWindow.BrushColor = "White"
+    GraphicsWindow.FillRectangle(770,290,60,40)
+    GraphicsWindow.BrushColor = "Black"
+    GraphicsWindow.DrawText(790,290,CorDaCustomização)
+    Controls.AddButton("<",750,285)
+    Controls.AddButton(">",850,285)
+  EndIf
+  
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Customizar cor dos alvos" Then
+    TituloDaCompra = "Customizar cor dos alvos"
+    Linha1DosDetalhesDaCompra = "Customize a cor das alvos do jeito que quiser!"
+    Linha2DosDetalhesDaCompra = "Mude a cor clicando nos botões < e >"
+    Linha3DosDetalhesDaCompra = " "
+    Preço = PreçoDaCustomizaçãoDaCorDaNave
+    Nivel = 0
+    LaserStore()
+    GraphicsWindow.BrushColor = "White"
+    GraphicsWindow.FillRectangle(770,290,60,40)
+    GraphicsWindow.BrushColor = "Black"
+    GraphicsWindow.DrawText(790,290,CorDaCustomização)
+    Controls.AddButton("<",750,285)
+    Controls.AddButton(">",850,285)
+  EndIf
+  
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Customizar cor do fundo" Then
+    TituloDaCompra = "Customizar cor do fundo"
+    Linha1DosDetalhesDaCompra = "Customize a cor do fundo do jeito que quiser!"
+    Linha2DosDetalhesDaCompra = "Mude a cor clicando nos botões < e >"
+    Linha3DosDetalhesDaCompra = " "
+    Preço = PreçoDaCustomizaçãoDaCorDaNave
+    Nivel = 0
+    LaserStore()
+    GraphicsWindow.BrushColor = "White"
+    GraphicsWindow.FillRectangle(770,290,60,40)
+    GraphicsWindow.BrushColor = "Black"
+    GraphicsWindow.DrawText(790,290,CorDaCustomização)
+    Controls.AddButton("<",750,285)
+    Controls.AddButton(">",850,285)
+  EndIf
+  
+  
+  
+  ' Realizando a compra da LaserStore
+  If Controls.GetButtonCaption(Controls.LastClickedButton) = "Comprar" Then
+    
+    ' Verificando se o jagador tem pontos o suficiente
+    If Pontuação = Math.Max(Pontuação,Preço) And Nivel <> "Max" Then
+      
+      ' Pagando
+      Pontuação = Pontuação - Preço
+      GraphicsWindow.ShowMessage("Compra realizada com sucesso!","Compra da LaserStore")
+      
+      
+      ' Realizando a verificação de qual foi o item desejado, para  melhorar ele e aumentar seu preço
+      
+      ' Verificando se Melhorar limite de tempo é o item desejado
+      If TituloDaCompra = "Melhorar limite de tempo" Then
+        PreçoDoLimiteDeTempo = PreçoDoLimiteDeTempo * 2
+        NivelDoLimiteDoTempo = NivelDoLimiteDoTempo + 1
+        
+        If NivelDoLimiteDoTempo > 4 Then
+          NivelDoLimiteDoTempo = "Max"
+        EndIf
+        
+        Preço = PreçoDoLimiteDeTempo
+        Nivel = NivelDoLimiteDoTempo
+        LaserStore()
+        
+        InicioDaTempoRestante = InicioDaTempoRestante + 5
+        LimiteDoTempoRestante = LimiteDoTempoRestante + 10
+      EndIf
+      
+      ' Verificando se Melhorar intervalo entre gerações é o item desejado
+      If TituloDaCompra = "Melhorar intervalo entre gerações" Then
+        PreçoDoIntervaloEntreGerações = PreçoDoIntervaloEntreGerações * 2
+        NivelDoIntervaloEntreGerações = NivelDoIntervaloEntreGerações + 1
+        
+        If NivelDoIntervaloEntreGerações > 2 Then
+          NivelDoIntervaloEntreGerações = "Max"
+        EndIf
+        
+        Preço = PreçoDoIntervaloEntreGerações
+        Nivel = NivelDoIntervaloEntreGerações
+        LaserStore()
+        
+        SegundosParaGerarAlvos = SegundosParaGerarAlvos + 5
+        
+      EndIf
+      
+      ' Verificando se Melhorar velocidade é o item desejado
+      If TituloDaCompra = "Melhorar velocidade" Then
+        PreçoDaVelocidade = PreçoDaVelocidade * 2
+        NivelDaVelocidade = NivelDaVelocidade + 1
+        
+        If NivelDaVelocidade > 1 Then
+          NivelDaVelocidade = "Max"
+        EndIf
+        
+        Preço = PreçoDaVelocidade
+        Nivel = NivelDaVelocidade
+        LaserStore()
+        
+        DuplicarVelocidade = 2
+        
+      EndIf
+      
+      ' Verificando se Melhorar recompensa do alvo é o item desejado
+      If TituloDaCompra = "Melhorar recompensa do alvo" Then
+        PreçoDaRecompensaDoAlvo = PreçoDaRecompensaDoAlvo * 2
+        NivelDaRecompensaDoAlvo = NivelDaRecompensaDoAlvo + 1
+        
+        If NivelDaRecompensaDoAlvo > 4 Then
+          NivelDaRecompensaDoAlvo = "Max"
+        EndIf
+        
+        Preço = PreçoDaRecompensaDoAlvo
+        Nivel = NivelDaRecompensaDoAlvo
+        LaserStore()
+        
+        MelhoriaDaRecompensa = MelhoriaDaRecompensa + 50
+        
+      EndIf
+      
+      ' Verificando se Customizar cor da nave é o item desejado
+      If TituloDaCompra = "Customizar cor da nave" Then
+        Preço = PreçoDaCustomizaçãoDaCorDaNave
+        
+        LaserStore()
+        
+        GraphicsWindow.BrushColor = "White"
+        GraphicsWindow.FillRectangle(770,290,60,40)
+        GraphicsWindow.BrushColor = "Black"
+        GraphicsWindow.DrawText(790,290,CorDaCustomização)
+        Controls.AddButton("<",750,285)
+        Controls.AddButton(">",850,285)
+        
+        CorDaNave = NomeDaCorDaCustomização
+      EndIf
+      
+      ' Verificando se Customizar cor do laser é o item desejado
+      If TituloDaCompra = "Customizar cor do laser" Then
+        Preço = PreçoDaCustomizaçãoDaCorDoLaser
+        
+        LaserStore()
+        
+        GraphicsWindow.BrushColor = "White"
+        GraphicsWindow.FillRectangle(770,290,60,40)
+        GraphicsWindow.BrushColor = "Black"
+        GraphicsWindow.DrawText(790,290,CorDaCustomização)
+        Controls.AddButton("<",750,285)
+        Controls.AddButton(">",850,285)
+        
+        CorDoLaser = NomeDaCorDaCustomização
+      EndIf
+      
+      ' Verificando se Customizar cor dos alvos é o item desejado
+      If TituloDaCompra = "Customizar cor dos alvos" Then
+        Preço = PreçoDaCustomizaçãoDaCorDoAlvo
+        
+        LaserStore()
+        
+        GraphicsWindow.BrushColor = "White"
+        GraphicsWindow.FillRectangle(770,290,60,40)
+        GraphicsWindow.BrushColor = "Black"
+        GraphicsWindow.DrawText(790,290,CorDaCustomização)
+        Controls.AddButton("<",750,285)
+        Controls.AddButton(">",850,285)
+        
+        CorDosAlvos = NomeDaCorDaCustomização
+      EndIf
+      
+      ' Verificando se Customizar cor do fundo é o item desejado
+      If TituloDaCompra = "Customizar cor do fundo" Then
+        Preço = PreçoDaCustomizaçãoDaCorDoFundo
+        
+        LaserStore()
+        
+        GraphicsWindow.BrushColor = "White"
+        GraphicsWindow.FillRectangle(770,290,60,40)
+        GraphicsWindow.BrushColor = "Black"
+        GraphicsWindow.DrawText(790,290,CorDaCustomização)
+        Controls.AddButton("<",750,285)
+        Controls.AddButton(">",850,285)
+        
+        CorDoFundo = NomeDaCorDaCustomização
+      EndIf
+      
+    ' Verificando se o item está no nivel máximo
+    ElseIf Nivel = "Max" Then
+      Sound.PlayBellRing()
+      GraphicsWindow.ShowMessage("O Item já está no nivel MÁXIMO!","Falha na Compra")
+      
+    ' Mandado memsagem avisando que não tem pontos o suficiente
+    Else
+      Sound.PlayBellRing()
+      GraphicsWindow.ShowMessage("Você não tem pontos o suficiente para realizar essa compra!", "Falha na Compra")
+    EndIf
+    
+  EndIf
+  
+  
+  
+  
+EndSub
+
+
+' ================================================================
+
+' ATIRANDO LASER
+
+
+' Sub para atirar laser --------------------------------------------------------------------------------------------
+Sub AtirarLaser
+  
+  ' Calculando o meio do paralelepípedo
+  MeioDoJogadorX = XdaVerticePrincipalA + 20
+  MeioDoJogadorY = YdaVerticePrincipalA + 20
+  
+  ' Desenhando Laser
+  GraphicsWindow.PenColor = CorDoLaser
+  GraphicsWindow.DrawLine(MeioDoJogadorX,MeioDoJogadorY,MeioDoJogadorX/2+250,MeioDoJogadorY/2+150)
+  
+  ' Armazenando localização do destino do laser
+  XdoDestinoLaser = MeioDoJogadorX/2+250
+  YdoDestinoLaser = MeioDoJogadorY/2+150
+  
+  ' Verificando se o laser acertou um alvo -----------------------------------------------------------------
+  
+  ' Vendo se acertou no alvo A
+  If XdoDestinoLaser > XdoAlvoA And XdoDestinoLaser < XdoAlvoA + 20 And YdoDestinoLaser > YdoAlvoA And YdoDestinoLaser < YdoAlvoA + 20 Then
+    XdoAlvoA = 2000
+    GraphicsWindow.BrushColor = "Red"
+    GraphicsWindow.PenColor = "Black"
+    GraphicsWindow.FillRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    GraphicsWindow.DrawRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    GraphicsWindow.BrushColor = "Yellow"
+    GraphicsWindow.FillRectangle(XdoDestinoLaser-5,YdoDestinoLaser-5,10,10)
+    GraphicsWindow.DrawRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    Pontuação = Pontuação + Math.GetRandomNumber(10+MelhoriaDaRecompensa) * 10
+    TempoRestante = TempoRestante + 4
+  EndIf
+  
+  
+  ' Vendo se acertou no alvo B
+  If XdoDestinoLaser > XdoAlvoB And XdoDestinoLaser < XdoAlvoB + 20 And YdoDestinoLaser > YdoAlvoB And YdoDestinoLaser < YdoAlvoB + 20 Then
+    XdoAlvoB = 2000
+    GraphicsWindow.BrushColor = "Red"
+    GraphicsWindow.PenColor = "Black"
+    GraphicsWindow.FillRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    GraphicsWindow.DrawRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    GraphicsWindow.BrushColor = "Yellow"
+    GraphicsWindow.FillRectangle(XdoDestinoLaser-5,YdoDestinoLaser-5,10,10)
+    GraphicsWindow.DrawRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    Pontuação = Pontuação + Math.GetRandomNumber(10+MelhoriaDaRecompensa) * 10
+    TempoRestante = TempoRestante + 4
+  EndIf
+  
+  
+  ' Vendo se acertou no alvo C
+  If XdoDestinoLaser > XdoAlvoC And XdoDestinoLaser < XdoAlvoC + 20 And YdoDestinoLaser > YdoAlvoC And YdoDestinoLaser < YdoAlvoC + 20 Then
+    XdoAlvoC = 2000
+    GraphicsWindow.BrushColor = "Red"
+    GraphicsWindow.PenColor = "Black"
+    GraphicsWindow.FillRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    GraphicsWindow.DrawRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    GraphicsWindow.BrushColor = "Yellow"
+    GraphicsWindow.FillRectangle(XdoDestinoLaser-5,YdoDestinoLaser-5,10,10)
+    GraphicsWindow.DrawRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    Pontuação = Pontuação + Math.GetRandomNumber(10+MelhoriaDaRecompensa) * 10
+    TempoRestante = TempoRestante + 4
+  EndIf
+  
+  
+  ' Vendo se acertou no alvo D
+  If XdoDestinoLaser > XdoAlvoD And XdoDestinoLaser < XdoAlvoD + 20 And YdoDestinoLaser > YdoAlvoD And YdoDestinoLaser < YdoAlvoD + 20 Then
+    XdoAlvoD = 2000
+    GraphicsWindow.BrushColor = "Red"
+    GraphicsWindow.PenColor = "Black"
+    GraphicsWindow.FillRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    GraphicsWindow.DrawRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    GraphicsWindow.BrushColor = "Yellow"
+    GraphicsWindow.FillRectangle(XdoDestinoLaser-5,YdoDestinoLaser-5,10,10)
+    GraphicsWindow.DrawRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    Pontuação = Pontuação + Math.GetRandomNumber(10+MelhoriaDaRecompensa) * 10
+    TempoRestante = TempoRestante + 4
+  EndIf
+  
+  
+  ' Vendo se acertou no alvo E
+  If XdoDestinoLaser > XdoAlvoE And XdoDestinoLaser < XdoAlvoE + 20 And YdoDestinoLaser > YdoAlvoE And YdoDestinoLaser < YdoAlvoE + 20 Then
+    XdoAlvoE = 2000
+    GraphicsWindow.BrushColor = "Red"
+    GraphicsWindow.PenColor = "Black"
+    GraphicsWindow.FillRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    GraphicsWindow.DrawRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    GraphicsWindow.BrushColor = "Yellow"
+    GraphicsWindow.FillRectangle(XdoDestinoLaser-5,YdoDestinoLaser-5,10,10)
+    GraphicsWindow.DrawRectangle(XdoDestinoLaser-15,YdoDestinoLaser-15,30,30)
+    Pontuação = Pontuação + Math.GetRandomNumber(10+MelhoriaDaRecompensa) * 10
+    TempoRestante = TempoRestante + 4
+  EndIf
+  
+EndSub
+
+' ====================================================================
+
+' TIMERS DO PROGRAMA
+
+
+' VariaveisDosTimes
+TimerDaGeraçãoDosAlvos = 0
+SegundosParaGerarAlvos = 20
+TimerDoInicioDaGeraçãoDaBomba = 0
+SegundosParaGerarBombas = 20
+ContagemDaAçãoDaBomba = 0
+iniciarContagemDaAçãoDaBomba = "False"
+
+
+' Sub dos times --------------------------------------------------------------------------------------
+Sub TimerDoPrograma
+  
+  ' Timers
+  TimerDaGeraçãoDosAlvos = TimerDaGeraçãoDosAlvos + 1
+  TimerDoInicioDaGeraçãoDaBomba = TimerDoInicioDaGeraçãoDaBomba + 1
+  
+  If iniciarContagemDaAçãoDaBomba = "True" Then
+    ContagemDaAçãoDaBomba = ContagemDaAçãoDaBomba + 1
+    DesenhandoBombas()
+  EndIf
+  
+  
+  ' Ao timer chegar a zero executar ação
+  If TimerDaGeraçãoDosAlvos >= SegundosParaGerarAlvos Then
+    GerarAlvo()
+    TimerDaGeraçãoDosAlvos = 0
+    SegundosParaGerarAlvos = SegundosParaGerarAlvos - 1
+  EndIf
+  
+  If TimerDoInicioDaGeraçãoDaBomba > 9 Then
+    SegundosParaGerarBombas = SegundosParaGerarBombas - 1
+  EndIf
+  
+  If SegundosParaGerarBombas < 1 Then
+    
+    If Math.GetRandomNumber(2) = 1 Then
+      GerarBomba()
+      iniciarContagemDaAçãoDaBomba = "True"
+      DesenhandoInterface()
+    EndIf
+    
+    SegundosParaGerarBombas = 20
+  EndIf
+  
+  
+  ' Para o intervalo entre as geração não ter um valor negativo
+  If SegundosParaGerarAlvos < 5 Then
+    SegundosParaGerarAlvos = 5
+  EndIf
+  
+  ' Verificando se o tempo acabou
+  If TempoRestante <= 0 Then
+    Perdeu()
+  EndIf
+  
+  ' Estabelecendo limites do Tempo Restante
+  If TempoRestante > LimiteDoTempoRestante Then
+    TempoRestante = LimiteDoTempoRestante
+  EndIf
+  
+  TempoRestante = TempoRestante - 1
+  DesenhandoInterface()
+  
+EndSub
+
+
+' =========================================================================
+
+' DESENHANDO INTERFACE DO PROGRAMA
+
+Sub DesenhandoInterface
+  
+  ' Desenhando o fundo ------------------------------------------------------------
+  GraphicsWindow.PenColor = CorDoFundo
+  GraphicsWindow.DrawRectangle(250,150,500,300)
+  GraphicsWindow.DrawLine(0,0,250,150)
+  GraphicsWindow.DrawLine(0,600,250,450)
+  GraphicsWindow.DrawLine(1000,0,750,150)
+  GraphicsWindow.DrawLine(1000,600,750,450)
+  
+  
+  ' Desenhando o paralelepípedo ------------------------------------------------
+  
+  GraphicsWindow.PenColor = CorDaNave
+  
+  ' Desenhando quadrilátero superior
+  GraphicsWindow.DrawLine(XdaVerticePrincipalA,YdaVerticePrincipalA,XdaVerticePrincipalB,YdaVerticePrincipalB)
+  GraphicsWindow.DrawLine(XdaVerticePrincipalB,YdaVerticePrincipalB,XdaVerticeC,YdaVerticeC)
+  GraphicsWindow.DrawLine(XdaVerticeC,YdaVerticeC,XdaVerticeD,YdaVerticeD)
+  GraphicsWindow.DrawLine(XdaVerticeD,YdaVerticeD,XdaVerticePrincipalA,YdaVerticePrincipalA)
+  
+  ' Desenhando quadrilátero inferior
+  GraphicsWindow.DrawLine(XdaVerticeE,YdaVerticeE,XdaVerticeF,YdaVerticeF)
+  GraphicsWindow.DrawLine(XdaVerticeF,YdaVerticeF,XdaVerticeG,YdaVerticeG)
+  GraphicsWindow.DrawLine(XdaVerticeG,YdaVerticeG,XdaVerticeH,YdaVerticeH)
+  GraphicsWindow.DrawLine(XdaVerticeH,YdaVerticeH,XdaVerticeE,YdaVerticeE)
+  
+  ' Desenhando arestas para conectar o quadrilátero superior com o inferior
+  GraphicsWindow.DrawLine(XdaVerticePrincipalA,YdaVerticePrincipalA,XdaVerticeE,YdaVerticeE)
+  GraphicsWindow.DrawLine(XdaVerticePrincipalB,YdaVerticePrincipalB,XdaVerticeF,YdaVerticeF)
+  GraphicsWindow.DrawLine(XdaVerticeC,YdaVerticeC,XdaVerticeG,YdaVerticeG)
+  GraphicsWindow.DrawLine(XdaVerticeD,YdaVerticeD,XdaVerticeH,YdaVerticeH)
+  
+  ' Desenhando alvos ------------------------------------------------------
+  
+  DesenharAlvos()
+  
+  ' Desenhando o laser-bomba
+  
+  If iniciarContagemDaAçãoDaBomba = "True" Then
+    DesenhandoBombas()
+  EndIf
+  
+  
+  ' Desenhando Informações Inferiores --------------------------------------------
+  
+  GraphicsWindow.BrushColor = "White"
+  GraphicsWindow.FillRectangle(0,560,300,100)
+  GraphicsWindow.PenColor = "Black"
+  GraphicsWindow.DrawRectangle(0,560,300,100)
+  
+  GraphicsWindow.BrushColor = "Black"
+  GraphicsWindow.DrawText(15,580, "Pontos: " + Pontuação)
+  GraphicsWindow.DrawText(120,580, "Tempo: " + TempoRestante)
+  
+  Controls.AddButton("Voltar ao inicío",870,570)
+  
+  ' Desenhando Titulo -------------------------------------------------------------------------
+  
+  GraphicsWindow.FontSize = 24
+  GraphicsWindow.BrushColor = "DarkRed"
+  GraphicsWindow.DrawText(15,15, "LASER")
+  GraphicsWindow.FontSize = 16
+  GraphicsWindow.BrushColor = "Black"
+  GraphicsWindow.DrawText(100,25, "ao alvo")
+  GraphicsWindow.FontSize = 12
+  
+EndSub
+
+
+' ======================================================================
+
+' GERANDO ALVOS
+
+
+' Sub que gerar alvos -----------------------------------------------------------------------------------
+Sub GerarAlvo
+  
+  GraphicsWindow.Clear()
+  
+  XdoAlvoA = Math.GetRandomNumber(315) + 330
+  YdoAlvoA = Math.GetRandomNumber(155) + 195
+  
+  XdoAlvoB = Math.GetRandomNumber(315) + 330
+  YdoAlvoB = Math.GetRandomNumber(155) + 195
+  
+  XdoAlvoC = Math.GetRandomNumber(315) + 330
+  YdoAlvoC = Math.GetRandomNumber(155) + 195
+  
+  XdoAlvoD = Math.GetRandomNumber(315) + 330
+  YdoAlvoD = Math.GetRandomNumber(155) + 195
+  
+  XdoAlvoE = Math.GetRandomNumber(315) + 330
+  YdoAlvoE = Math.GetRandomNumber(155) + 195
+  
+  
+  DesenharAlvos()
+  
+EndSub
+
+
+
+' Sub que desenha os alvos ---------------------------------------------------------------
+Sub DesenharAlvos
+  
+  ' Desenhando os alvos
+  
+  GraphicsWindow.PenColor = "Black"
+  GraphicsWindow.DrawRectangle(XdoAlvoA,YdoAlvoA,20,20)
+  GraphicsWindow.DrawRectangle(XdoAlvoB,YdoAlvoB,20,20)
+  GraphicsWindow.DrawRectangle(XdoAlvoC,YdoAlvoC,20,20)
+  GraphicsWindow.DrawRectangle(XdoAlvoD,YdoAlvoD,20,20)
+  GraphicsWindow.DrawRectangle(XdoAlvoE,YdoAlvoE,20,20)
+  
+  ' Desenhando detanhes dos alvos
+  GraphicsWindow.PenColor = CorDosAlvos
+  GraphicsWindow.DrawRectangle(XdoAlvoA+5,YdoAlvoA+5,10,10)
+  GraphicsWindow.DrawRectangle(XdoAlvoB+5,YdoAlvoB+5,10,10)
+  GraphicsWindow.DrawRectangle(XdoAlvoC+5,YdoAlvoC+5,10,10)
+  GraphicsWindow.DrawRectangle(XdoAlvoD+5,YdoAlvoD+5,10,10)
+  GraphicsWindow.DrawRectangle(XdoAlvoE+5,YdoAlvoE+5,10,10)
+  
+EndSub
+
+
+' ============================================================================
+
+' GERANDO BOMBAS
+
+GerandoBombas = "False"
+
+' Sub que gera o local da bomba
+Sub GerarBomba
+  GerandoBombas = "True"
+  SorteioDoLocalDaBomba = Math.GetRandomNumber(3)
+  
+  If SorteioDoLocalDaBomba = 1 Then
+    XdaBomba = 325
+  ElseIf SorteioDoLocalDaBomba = 2 Then
+    XdaBomba = 575
+  Else
+    XdaBomba = 450
+  EndIf
+  
+  XdaBombaLaser = XdaBomba + 20
+  
+  DesenhandoBombas()
+  
+EndSub
+
+' Sub que desenha a bomba no local gerado
+Sub DesenhandoBombas
+  
+  ' Fazendo a bomba piscar
+  If ContagemDaAçãoDaBomba = 0 Then
+    GraphicsWindow.PenColor = "Black"
+  EndIf
+  
+  If ContagemDaAçãoDaBomba = 1 Then
+    GraphicsWindow.PenColor = "DarkRed"
+  EndIf
+  
+  If ContagemDaAçãoDaBomba = 2 Then
+    GraphicsWindow.PenColor = "Black"
+  EndIf
+  
+  If ContagemDaAçãoDaBomba = 3 Then
+    GraphicsWindow.PenColor = "DarkRed"
+  EndIf
+  
+  
+  If ContagemDaAçãoDaBomba > 3 Then
+    GraphicsWindow.PenColor = "DarkRed"
+    ExplodirBomba()
+  EndIf
+  
+  ' Desenhando a bomba
+  GraphicsWindow.PenWidth = 6
+  GraphicsWindow.DrawRectangle(XdaBombaLaser,270,60,60)  
+  GraphicsWindow.PenWidth = 2
+  GraphicsWindow.PenColor = "Black"
+  GraphicsWindow.DrawRectangle(XdaBomba,250,100,100)
+  GraphicsWindow.DrawLine(XdaBomba+50,285,XdaBomba+50,315)
+  GraphicsWindow.DrawLine(XdaBomba+35,300,XdaBomba+65,300)
+  
+EndSub
+
+' Sub que faz a bomba explodir
+Sub ExplodirBomba
+  
+  XdoPontoBdaBombaLaser = XdaBombaLaser + 60
+  
+  XdoPontoAdaBombaNaTela = XdaBombaLaser * 2 - 500
+  XdoPontoBdaBombaNaTela = XdoPontoBdaBombaLaser * 2 - 500
+  
+  GraphicsWindow.PenWidth = 4
+  GraphicsWindow.DrawLine(XdaBombaLaser,270,XdoPontoAdaBombaNaTela,240)
+  GraphicsWindow.DrawLine(XdoPontoBdaBombaLaser,270,XdoPontoBdaBombaNaTela,240)
+  GraphicsWindow.DrawLine(XdaBombaLaser,330,XdoPontoAdaBombaNaTela,360)
+  GraphicsWindow.DrawLine(XdoPontoBdaBombaLaser,330,XdoPontoBdaBombaNaTela,360)
+  
+  GraphicsWindow.DrawLine(XdoPontoAdaBombaNaTela,240,XdoPontoBdaBombaNaTela,240)
+  GraphicsWindow.DrawLine(XdoPontoAdaBombaNaTela,360,XdoPontoBdaBombaNaTela,360)
+  GraphicsWindow.DrawLine(XdoPontoAdaBombaNaTela,240,XdoPontoAdaBombaNaTela,360)
+  GraphicsWindow.DrawLine(XdoPontoBdaBombaNaTela,240,XdoPontoBdaBombaNaTela,360)
+  
+  GraphicsWindow.PenWidth = 2
+  
+  If ContagemDaAçãoDaBomba = 8 Then
+    iniciarContagemDaAçãoDaBomba = "False"
+    ContagemDaAçãoDaBomba = 0
+    DesenhandoInterface()
+  EndIf
+  
+  
+EndSub
+
+
+' ==================================================================
+
+' AO PERDER
+
+PerdeuPelaBombaLaser = "False"
+
+' Sub que executa ao perder
+Sub Perdeu
+  
+  ' Apresentando a mensagem: O tempo acabou, e mostrando sua pontuação
+  GraphicsWindow.Clear()
+  Sound.PlayBellRing()
+  GraphicsWindow.FontSize = 48
+  If PerdeuPelaBombaLaser = "False" Then
+    GraphicsWindow.DrawText(50,110, "O TEMPO ACABOU!")
+  Else
+    GraphicsWindow.DrawText(50,110, "NAVE QUEBRADA!")
+  EndIf
+  GraphicsWindow.FontSize = 16
+  GraphicsWindow.DrawText(50,205, "Você agora está com " + Pontuação + " de pontuação!") 
+  GraphicsWindow.DrawLine(40,290,530,290)
+  
+  Controls.AddButton("Voltar a tela inicial",50,340)
+  GraphicsWindow.FontSize = 2
+  
+  BloquearControles = "True"
+  Timer.Pause()
+  ComeçarTimer = "True"
+  
+  ' Reiniciando as variaveis dos times
+  TimerDaGeraçãoDosAlvos = 0
+  SegundosParaGerarAlvos = 20
+  
+  
+  
+EndSub
+
+
+' ==================================================================
+
+' TELA INICIAL DO PROGRAMA
+
+Sub TelaInicial
+  
+  BloquearControles = "False"
+  iniciarContagemDaAçãoDaBomba = "False"
+  
+  GraphicsWindow.Clear()
+  Sound.PlayChime()
+  
+  GraphicsWindow.FontSize = 48
+  GraphicsWindow.BrushColor = "DarkRed"
+  GraphicsWindow.DrawText(50,110, "LASER")
+  
+  GraphicsWindow.FontSize = 24
+  GraphicsWindow.BrushColor = "Black"
+  GraphicsWindow.DrawText(220,135, "ao alvo")
+  
+  GraphicsWindow.FontSize = 12
+  GraphicsWindow.DrawText(50,205, "Clique em qualquer tecla para continuar...")
+  
+  GraphicsWindow.PenColor = "Black"
+  
+  GraphicsWindow.DrawLine(40,270,510,270)
+  GraphicsWindow.DrawText(50,325, "- Opções")
+  
+  BotãoTutorial = Controls.AddButton("Fazer um Tutorial" ,50, 355)
+  BotãoLaserStore = Controls.AddButton("Ir a LaserStore" ,50, 395)
+  
+  
+EndSub
+
+' =================================================================
+
+' TUTORIAL
+
+
+' Variáveis do Tutorial
+PassoNoTutorial = 1
+Linha1DoTutorial = "Linha1"
+Linha2DoTutorial = "Linha2"
+Linha3DoTutorial = "Linha3"
+
+' Sub do Tutorial
+Sub Tutorial
+  
+  LaserStoreAberta = "False"
+  TutorialAberto = "True"
+  
+  ' Verificando e desenhando passos
+  
+  If PassoNoTutorial = 1 Then
+    Linha1DoTutorial = "Olá, seja bem-vindo a LASER AO ALVO!"
+    Linha2DoTutorial = "Clique nos botões < e > para passar os passos ou voltar os mesmos"
+    Linha3DoTutorial = " "
+  EndIf
+  
+  
+  If PassoNoTutorial = 2 Then
+    Linha1DoTutorial = "Seu objetivo é acertar o máximo alvos com seu raio laser antes"
+    Linha2DoTutorial = "do tempo acabar, acerte os alvos para aumentar o tempo e"
+    Linha3DoTutorial = "ganhar pontos!"
+  EndIf
+  
+  
+  If PassoNoTutorial = 3 Then
+    Linha1DoTutorial = "Para fazer isso você deve se mover, clicando em W, S, A e D."
+    Linha2DoTutorial = "(W - Para cima, S - Para baixo, A - Para a esquerda e"
+    Linha3DoTutorial = "D - Para direita)"
+  EndIf
+  
+  If PassoNoTutorial = 4 Then
+    Linha1DoTutorial = "Atire o seu raio laser clicando com o mouse ou com"
+    Linha2DoTutorial = "a tecla enter."
+    Linha3DoTutorial = " "
+  EndIf
+  
+  If PassoNoTutorial = 5 Then
+    Linha1DoTutorial = "Se você ver um quadrado gigante piscando, apenas FUJA!"
+    Linha2DoTutorial = "Este é o Laser-Bomba, um laser tão forte que é capaz de"
+    Linha3DoTutorial = "destruir sua nave."
+  EndIf
+  
+  If PassoNoTutorial = 6 Then
+    Linha1DoTutorial = "Gaste seus pontos na LaserStore, onde você pode comprar"
+    Linha2DoTutorial = "várias melhorias para avançar mais no jogo"
+    Linha3DoTutorial = " "
+  EndIf
+  
+  If PassoNoTutorial = 7 Then
+    Linha1DoTutorial = "Este foi o tutorial do jogo, espero que se divirta muito nele!"
+    Linha2DoTutorial = "Boa Sorte!"
+    Linha3DoTutorial = " "
+  EndIf
+  
+  
+  ' Desenhando interface
+  GraphicsWindow.Clear()
+  GraphicsWindow.FontSize = 24
+  GraphicsWindow.DrawText(50,60, "TUTORIAL")
+  GraphicsWindow.FontSize = 12
+  GraphicsWindow.DrawText(100,180, Linha1DoTutorial)
+  GraphicsWindow.DrawText(100,200, Linha2DoTutorial)
+  GraphicsWindow.DrawText(100,220, Linha3DoTutorial)
+  GraphicsWindow.DrawText(50,250, PassoNoTutorial)
+  
+  Controls.AddButton("<",50,200)
+  Controls.AddButton(">",550,200)
+  Controls.AddButton("Voltar a tela inicial",50,340)
+  
+EndSub
+
+
+' =======================================================================
+
+' LASERSTORE
+
+' Variáveis da LaserStore
+TituloDaCompra = "Titulo"
+Linha1DosDetalhesDaCompra = "Selecione algo para ver os detalhes"
+Linha2DosDetalhesDaCompra = " "
+Linha3DosDetalhesDaCompra = " "
+Preço = " "
+Nivel = " "
+
+' Variáveis dos preços da LaserStore
+PreçoDoLimiteDeTempo = 1800
+PreçoDoIntervaloEntreGerações = 2200
+PreçoDaVelocidade = 8700
+PreçoDaRecompensaDoAlvo = 3100
+PreçoDaCustomizaçãoDaCorDaNave = 300
+PreçoDaCustomizaçãoDaCorDoLaser = 300
+PreçoDaCustomizaçãoDaCorDoAlvo = 300
+PreçoDaCustomizaçãoDaCorDoFundo = 450
+
+' Variáveis dos niveis da LaserStore
+NivelDoLimiteDoTempo = 1
+NivelDoIntervaloEntreGerações = 1
+NivelDaVelocidade = 1
+NivelDaRecompensaDoAlvo = 1
+
+' Variáveis que mudam o jogo ao comprar melhoria
+DuplicarVelocidade = 1
+MelhoriaDaRecompensa = 0
+
+' Variáveis que mudam o jogo ao comprar customização
+NumeroDaCorDaCustomização = 1
+CorDaNave = "Gray"
+CorDoLaser = "DarkRed"
+CorDosAlvos = "Green"
+CorDoFundo = "Black"
+
+
+' Sub da LaserStore
+Sub LaserStore
+  
+  LaserStoreAberta = "True"
+  TutorialAberto = "False"
+  GraphicsWindow.Clear()
+  
+  ' Desenhando a Interface
+  GraphicsWindow.FontSize = 24
+  GraphicsWindow.BrushColor = "DarkRed"
+  GraphicsWindow.DrawText(50,60, "LASER")
+  GraphicsWindow.FontSize = 16
+  GraphicsWindow.BrushColor = "Black"
+  GraphicsWindow.PenColor = "Black"
+  GraphicsWindow.DrawText(135,68, "Store")
+  GraphicsWindow.FontSize = 12
+  GraphicsWindow.DrawText(600,80, "Você tem " + Pontuação + " pontos")
+  GraphicsWindow.DrawLine(40,110,960,110)
+  GraphicsWindow.DrawText(620,410, "Clique qualquer tecla para iniciar o jogo...")
+  Controls.AddButton("Voltar a tela inicial",620,450)
+  
+  
+  ' Desenhando área de detalhes da compra
+  GraphicsWindow.DrawRectangle(600,160,360,220)
+  GraphicsWindow.DrawText(620,180, TituloDaCompra)
+  GraphicsWindow.DrawText(620,210, Linha1DosDetalhesDaCompra)
+  GraphicsWindow.DrawText(620,230, Linha2DosDetalhesDaCompra)
+  GraphicsWindow.DrawText(620,250, Linha3DosDetalhesDaCompra)
+  GraphicsWindow.DrawText(620,290, "Preço: " + Preço)
+  GraphicsWindow.DrawText(770,290, "Nivel: " + Nivel)
+  Controls.AddButton("Comprar",620,330)
+  
+  
+  
+  ' Opções de melhorias
+  GraphicsWindow.DrawText(50,150, "- Melhorias")
+  
+  Controls.AddButton("Melhorar limite de tempo",50,190)
+  Controls.AddButton("Melhorar intervalo entre gerações",50,230)
+  Controls.AddButton("Melhorar velocidade",50,270)
+  Controls.AddButton("Melhorar recompensa do alvo",50,310)
+  
+  ' Opções de customização
+  GraphicsWindow.DrawText(50,370, "- Customização")
+  
+  Controls.AddButton("Customizar cor da nave",50,410)
+  Controls.AddButton("Customizar cor do laser",50,450)
+  Controls.AddButton("Customizar cor dos alvos",50,490)
+  Controls.AddButton("Customizar cor do fundo",50,530)
+  
+  
+EndSub

@@ -1,0 +1,278 @@
+
+' ================================================
+
+' Programa do Texte 1 - Eixo Z
+
+' ================================================
+
+' Criando e modificando a janela gráfica
+
+GraphicsWindow.Top = 110
+GraphicsWindow.Left = 400
+GraphicsWindow.Width = 501
+GraphicsWindow.Height = 501
+GraphicsWindow.CanResize = "False"
+
+' ------------------------------------------------------------------------------------
+
+' DEFININDO VARIÁVEIS PRIMÁRIAS
+
+
+' Variáveis de localização
+
+XdoMeio = 0
+YdoMeio = 0
+
+X = 150
+Y = 150
+
+If X > Y Then
+  Z = X
+Else
+  Z = Y
+EndIf
+
+' Variáveis do padrão de movimento
+
+PadraoX = Math.Round(Z/Y)
+PadraoY = Math.Round(Z/X)
+
+MoverPadraoX = 0
+MoverPadraoY = 0
+
+' Variáveis da organização de turno
+
+VezX = "True"
+VezY = "False"
+
+' Programando a ativação do sistema ao detectar ação das teclas
+GraphicsWindow.KeyDown = ExecuteProgram
+
+' -----------------------------------------------------------------------------------
+
+' VERIFICAR E MODIFICAR TRILHA
+
+Verificação = "True"
+
+ContagemDeMovimento = 0
+
+VezDaVerificaçãoX = "True"
+VezDaVerificaçãoY = "False"
+
+MudarVerificarX = 0
+MudarVerificarY = 0
+
+VerificarX = X
+VerificarY = Y
+
+While Verificação = "True"
+  
+ If VezDaVerificaçãoX = "True" Then
+    
+   If VerificarX >= XdoMeio Then
+     VerificarX = VerificarX - 1
+     MudarVerificarX = MudarVerificarX + 1
+     ContagemDeMovimento = ContagemDeMovimento + 1
+   Else
+     VerificarX = VerificarX + 1
+     MudarVerificarX = MudarVerificarX + 1
+     ContagemDeMovimento = ContagemDeMovimento + 1
+   EndIf
+   
+   If MudarVerificarX > PadraoX Then
+     MudarVerificarX = 0
+     VezDaVerificaçãoX = "False"
+     VezDaVerificaçãoY = "True"
+   EndIf
+   
+ EndIf
+ 
+ 
+ If ContagemDeMovimento = Z Then
+   If VerificarX = XdoMeio And VerificarY = YdoMeio Then
+     
+     TrilhaExata = "True"
+     Verificação = "False"
+     
+   Else
+     
+     DiferençaDeDistanciaX = VerificarX - XdoMeio
+     DiferençaDeDistanciaY = VerificarY - YdoMeio
+     
+     TrilhaExata = "False"
+     Verificação = "False"
+     
+   EndIf
+    
+   
+ EndIf
+    
+ 
+EndWhile
+
+
+
+
+
+' -----------------------------------------------------------------------------------
+
+' MOVIMENTAÇÃO SEGUNDO O PADRÃO
+
+
+' Ao executar o sistema
+Sub ExecuteProgram
+ 
+  ' Ir para frente ao clicar "W"
+  If GraphicsWindow.LastKey = "W" Then
+    
+    ' Limpar tela
+    GraphicsWindow.Clear()
+    
+    ' Movimentando eixo X a frente +-------------------------+
+    
+    ' Verificando se é turno do eixo X
+    If VezX = "True" Then
+      
+      ' Procurando o seu bloco
+      If X >= XdoMeio Then
+        ' Movendo o eixo X
+        X = X-1
+        MoverPadraoX = MoverPadraoX + 1
+      Else
+        ' Movendo o eixo X
+        X = X+1
+        MoverPadraoX = MoverPadraoX + 1
+      EndIf
+      
+      ' Encerrando turno
+      If MoverPadraoX > PadraoX Then
+        MoverPadraoX = 0
+        VezX = "False"
+        VezY = "True"
+      EndIf
+      
+    EndIf
+    
+    
+    ' Movimentando eixo Y a frente +--------------------------+
+    
+    ' Verificando se é turno do eixo Y
+    If VezY = "True" Then
+      
+      ' Procurando o seu bloco
+      If Y >= YdoMeio Then
+        ' Movendo eixo Y
+        Y = Y-1
+        MoverPadraoY = MoverPadraoY + 1
+      Else
+        ' Movendo eixo Y
+        Y = Y+1
+        MoverPadraoY = MoverPadraoY + 1
+      EndIf
+      
+      ' Encerrando turno
+      If MoverPadraoY > PadraoY Then
+        MoverPadraoY = 0
+        VezX = "True"
+        VezY = "False"
+      EndIf
+      
+    EndIf
+    
+    ' Mandando menssagem de chegada
+    If X = XdoMeio And Y = YdoMeio Then
+      GraphicsWindow.ShowMessage("Você chegou!", "Chegada")
+    EndIf
+    
+  EndIf
+  
+  
+  ' Ir para trás ao clicar "S"
+  If GraphicsWindow.LastKey = "S" Then
+    
+    ' Limpar janela
+    GraphicsWindow.Clear()
+    
+    ' Movimentando eixo X a trás +-------------------------+
+    
+    ' Verificando se é turno do eixo X
+    If VezX = "True" Then
+      
+      ' Procurando o seu bloco
+      If X >= XdoMeio Then
+        ' Movendo eixo X
+        X = X+1
+        MoverPadraoX = MoverPadraoX + 1
+      Else
+        ' Movendo eixo X
+        X = X-1
+        MoverPadraoX = MoverPadraoX + 1
+      EndIf
+      
+      ' Encerrando turno
+      If MoverPadraoX > PadraoX Then
+        MoverPadraoX = 0
+        VezX = "False"
+        VezY = "True"
+      EndIf
+      
+    EndIf
+    
+    
+    ' Movimentando eixo Y a trás +--------------------------+
+    
+    ' Verificando se é turno do eixo Y
+    If VezY = "True" Then
+      
+      ' Procurando o seu bloco
+      If Y >= YdoMeio Then
+        ' Movendo eixo Y
+        Y = Y+1
+        MoverPadraoY = MoverPadraoY + 1
+      Else
+        ' Movendo eixo Y
+        Y = Y-1
+        MoverPadraoY = MoverPadraoY + 1
+      EndIf
+      
+      ' Encerrando turno
+      If MoverPadraoY > PadraoY Then
+        MoverPadraoY = 0
+        VezX = "True"
+        VezY = "False"
+      EndIf
+      
+    EndIf
+    
+  EndIf
+  
+  ' Desenhando a interface
+  DesenharInterface()
+  
+EndSub
+
+' --------------------------------------------------------------------------------
+
+' DESENHANDO INTERFACE
+
+
+' Ao desenhar a interface
+Sub DesenharInterface
+  
+  ' Engrossando pincel
+  GraphicsWindow.PenWidth = 3
+  
+  ' Desenhando o ponto
+  GraphicsWindow.PenColor = "Black"
+  GraphicsWindow.DrawRectangle(X + 251,Y + 251,2,2)
+  
+  ' Desenhando destino
+  GraphicsWindow.PenColor = "Red"
+  GraphicsWindow.DrawRectangle(XdoMeio + 251,YdoMeio + 251,3,3)
+  
+  ' Informações
+  GraphicsWindow.DrawText(30,460, "Padrão do X: " + PadraoX + " e Padrão do Y: " + PadraoY + "/ Meio está em: " + XdoMeio + ", " + YdoMeio)
+  GraphicsWindow.DrawText(30,475, "Movimentou no X: " + MoverPadraoX + "/ Movimentou no Y: " + MoverPadraoY + "// Cordenada: " + X + ", " + Y)
+  
+EndSub
+

@@ -1,0 +1,1115 @@
+' ======================================
+
+' PROGRAMA DE SANDBOX OF SQUARES
+
+' ======================================
+
+
+GraphicsWindow.Show()
+GraphicsWindow.CanResize = "False"
+
+' Abertura do Programa
+GraphicsWindow.Title = "Sandbox of Squares - Tela Inicial"
+GraphicsWindow.Width = WT
+GraphicsWindow.Height = HT
+
+Sound.PlayChime()
+GraphicsWindow.FontSize = 40
+GraphicsWindow.DrawText(30,100, "Sandbox of")
+GraphicsWindow.FontSize = 32
+GraphicsWindow.DrawText(30,145, "Squares")
+GraphicsWindow.FontSize = 9
+GraphicsWindow.DrawText(30,320, "Clique em qualquer tecla para iniciar")
+
+GraphicsWindow.KeyDown = ExeProgram
+
+' Definindo as variaveis do programa
+
+ModBorracha = "Not"
+
+ModTela = "Not"
+WT = 500
+HT = 500
+
+CorFundo = "White"
+CorDetalhes = "Black"
+
+Wellipse = 10
+Hellipse = 10
+
+PXporClique = 1
+
+Cima = "W"
+Baixo = "S"
+Esquerda = "A"
+Direita = "D"
+
+AumentaH = "O"
+DiminueH = "I"
+AumentaW = "L"
+DiminueW = "K"
+
+AumentarF = "M"
+DiminueF = "N"
+
+TrasCor = "Q"
+FrenteCor = "E"
+
+LigarOuDesligarModTela = "Z"
+
+CopiarQuadrilatero = "Space"
+DeletarQuadrilatero = "Back"
+
+StartTutorial = "P"
+StartConfiguracoes = "LeftCtrl"
+
+' ----------------------------------------------------
+
+Q = 1
+Color = "Black"
+NumberColor = 1
+X = 0
+Y = 0
+H = 30
+W = 30
+F = 2
+
+
+
+' Sub do Programa
+Sub ExeProgram
+  
+  GraphicsWindow.Clear()
+  
+  
+  
+  ' ==========================================
+  
+  ' DETECTANDO TECLAS PARA EXECUTAR AÇÕES
+  
+  If ModBorracha = "Not" Then
+  
+  ' Posisão do Quadrilátero
+  If GraphicsWindow.LastKey = Direita Then
+    X = X + PXporClique
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If GraphicsWindow.LastKey = Esquerda Then
+    X = X - PXporClique
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If GraphicsWindow.LastKey = Cima Then
+    Y = Y - PXporClique
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If GraphicsWindow.LastKey = Baixo Then
+    Y = Y + PXporClique
+    GraphicsWindow.Clear()
+  EndIf
+  
+  ' Height e width do quadrilátero
+  
+  If ModTela = "Not" Then
+  If GraphicsWindow.LastKey = DiminueH Then
+    H = H - PXporClique
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If GraphicsWindow.LastKey = AumentaH Then
+    H = H + PXporClique
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If GraphicsWindow.LastKey = DiminueW Then
+    W = W - PXporClique
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If GraphicsWindow.LastKey = AumentaW Then
+    W = W + PXporClique
+    GraphicsWindow.Clear()
+  EndIf
+  EndIf
+  
+  ' Cor do quadrilátero
+  
+  If GraphicsWindow.LastKey = FrenteCor Then
+    NumberColor = NumberColor + 1
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If GraphicsWindow.LastKey = TrasCor Then
+    NumberColor = NumberColor - 1
+    GraphicsWindow.Clear()
+  EndIf
+  
+  ' ------------------------------------
+  
+  ' Números de cor
+  
+  If NumberColor < 1 Then
+    NumberColor = 10
+  EndIf
+  
+  If NumberColor > 10 Then
+    NumberColor = 1
+  EndIf
+  
+  If NumberColor = 1 Then
+    Color = "Blue"
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If NumberColor = 2 Then
+    Color = "Green"
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If NumberColor = 3 Then
+    Color = "Yellow"
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If NumberColor = 4 Then
+    Color = "Red"
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If NumberColor = 5 Then
+    Color = "Black"
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If NumberColor = 6 Then
+    Color = "Gray"
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If NumberColor = 7 Then
+    Color = "DarkGreen"
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If NumberColor = 8 Then
+    Color = "White"
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If NumberColor = 9 Then
+    Color = "Magenta"
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If NumberColor = 10 Then
+    Color = "Cyan"
+    GraphicsWindow.Clear()
+  EndIf
+  
+  
+  ' Finura da Linha -----------------------------------------------------
+  
+  If GraphicsWindow.LastKey = AumentarF Then
+    F = F + 1
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If GraphicsWindow.LastKey = DiminueF Then
+    F = F - 1
+    GraphicsWindow.Clear()
+  EndIf
+  
+  ' Manipulando altura e largura da janela -------------------------------
+  
+  If GraphicsWindow.LastKey = LigarOuDesligarModTela Then
+    If ModTela = "Yes" Then
+      ModTela = "Not"
+    Else
+      ModTela = "Yes"
+    EndIf
+  EndIf
+  
+  If ModTela = "Yes" Then
+  If GraphicsWindow.LastKey = DiminueH Then
+    HT = HT - 10
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If GraphicsWindow.LastKey = AumentaH Then
+    HT = HT + 10
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If GraphicsWindow.LastKey = DiminueW Then
+    WT = WT - 10
+    GraphicsWindow.Clear()
+  EndIf
+  
+  If GraphicsWindow.LastKey = AumentaW Then
+    WT = WT + 10
+    GraphicsWindow.Clear()
+  EndIf
+  
+  GraphicsWindow.Height = HT
+  GraphicsWindow.Width = WT
+  
+  EndIf
+ 
+ 
+ ' Configurações do Sistema ------------------------------------
+ 
+ If GraphicsWindow.LastKey = StartConfiguracoes Then
+   DigitouCerto = "Not"
+   TextWindow.WriteLine(" ")
+   TextWindow.WriteLine("- Cofigurações -")
+   TextWindow.WriteLine(" ")
+   TextWindow.WriteLine("Seja bem-vindo(a) as Cofigurações do Programa")
+   TextWindow.WriteLine("Escreva abaixo o que deseja mudar, digite Ver Opções para ver as opções.")
+   Opção = TextWindow.Read()
+   TextWindow.Clear()
+   TextWindow.WriteLine(" ")
+   
+   If Opção = "Ver Opções" Then ' ------------------------------------
+     
+     DigitouCerto = "Yes"
+     
+     TextWindow.WriteLine("As opções que você pode mudar são:")
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("Ver Opções - permite que você veja as opções")
+     TextWindow.WriteLine("Velocidade - permite que seus quadriláteros andem mais rápido (ou mais devagar)")
+     TextWindow.WriteLine("Mudar Teclas - permite personalizar as teclas que você usa para gerar ação")
+     TextWindow.WriteLine("Fundo - permite customizar o fundo")
+     TextWindow.WriteLine("Reiniciar - reiniciar todas as configurações")
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("Clique enter para prosseguir")
+     TextWindow.Read()
+     TextWindow.Clear()
+     TextWindow.Hide()
+   EndIf
+   
+   If Opção = "Velocidade" Then ' ----------------------------------
+     
+     DigitouCerto = "Yes"
+     
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("- Configurações / Velocidade -")
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("A Velocidade atual é de " + PXporClique + " por clique")
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("Insira a quantidade desejada de PXs por clique, mas atenção ele não pode ser um valor decimal")
+     TextWindow.WriteLine(" ")
+     PXporClique = TextWindow.ReadNumber()
+     TextWindow.WriteLine(" ")
+     TextWindow.Clear()
+     TextWindow.Hide()
+   EndIf
+   
+   If Opção = "Mudar Teclas" Then ' ------------------------------
+     
+     DigitouCerto = "Yes"
+     RepetirMudarTeclas = "Yes"
+     
+     While RepetirMudarTeclas = "Yes"
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("- Configurações / Mudar Teclas -")
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("Estas são as ações das teclas no programa")
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("Para cima = " + Cima)
+     TextWindow.WriteLine("Para baixo = " + Baixo)
+     TextWindow.WriteLine("Para Esquerda = " + Esquerda)
+     TextWindow.WriteLine("Para direita = " + Direita)
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("Aumentar Altura = " + AumentaH)
+     TextWindow.WriteLine("Diminuir Altura = " + DiminueH)
+     TextWindow.WriteLine("Aumentar Largura = " + AumentaW)
+     TextWindow.WriteLine("Diminuir Largura = " + DiminueW)
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("Aumentar Espessura = " + AumentarF)
+     TextWindow.WriteLine("Diminuir Espessura = " + DiminueF)
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("Próxima Cor = " + FrenteCor)
+     TextWindow.WriteLine("Cor Anterior = " + TrasCor)
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("Criar Quadrilátero = " + CopiarQuadrilatero)
+     TextWindow.WriteLine("Deletar Quadrláteros = " + DeletarQuadrilatero)
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("Ligar/Desligar Modo Editar tela = " + LigarOuDesligarModTela)
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("Iniciar Tutorial = " + StartTutorial)
+     TextWindow.WriteLine("Iniciar Configurações = " + StartConfiguracoes)
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("-------------------------------------")
+     TextWindow.WriteLine(" ")
+     TextWindow.WriteLine("Digite o nome da ação que queira modificar a tecla de evento")
+     TextWindow.WriteLine("Ou se quiser fechar as configurações digite Fechar")
+     TextWindow.WriteLine(" ")
+     EventoTecla = TextWindow.Read()
+     TextWindow.WriteLine(" ")
+     TextWindow.Clear()
+     
+     ' Varificação de ação desejada
+     
+     If EventoTecla = "Para cima" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Para cima -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       Cima = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Para baixo" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Para baixo -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       Baixo = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Para esquerda" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Para esquerda -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       Esquerda = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Para direita" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Para direita -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       Direita = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Aumentar Altura" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Aumentar Altura -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       AumentaH = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Diminuir Altura" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Diminuir Altura -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       DiminueH = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Aumentar Largura" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Aumentar largura -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       AumentaW = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Diminuir Largura" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Diminuir Largura -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       DiminueW = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     
+     If EventoTecla = "Aumentar Espessura" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Aumentar Espessura -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       AumentarF = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Diminuir Espessura" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Diminuir Largura -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       DiminueW = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Aumentar Espessura" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Aumentar Largura -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       AumentarF = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     
+     If EventoTecla = "Próxima Cor" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Próxima Cor -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       FrenteCor = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Cor Anterior" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Cor Anterior -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       TrasCor = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Ligar/Desligar Modo Editar Tela" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Ligar/Desligar Modo Editar Tela -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       LigarOuDesligarModTela = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     
+     If EventoTecla = "Criar Quadrilátero" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Criar Quadrilátero -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       CopiarQuadrilatero = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     
+     If EventoTecla = "Deletar Quadriláteros" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Deletar Quadriláteros -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       DeletarQuadrilatero = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+    
+     If EventoTecla = "Iniciar Tutorial" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Iniciar Tutorial -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       StartTutorial = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Iniciar Configurações" Then
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Mudar Teclas / Iniciar Configurações -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Digite o nome da tecla que iniciará essa ação:")
+       TrasCor = TextWindow.Read()
+       TextWindow.WriteLine(" ")
+       TextWindow.Clear()
+       TextWindow.Hide()
+     EndIf
+     
+     If EventoTecla = "Fechar" Then
+       TextWindow.Clear()
+       TextWindow.Hide()
+       RepetirMudarTeclas = "Not"
+     EndIf
+     
+   EndWhile
+   
+     
+   EndIf
+   
+   If Opção = "Fundo" Then ' ------------------------------
+     
+     DigitouCerto = "Yes"
+     FecharFundo = "Not"
+     
+     While FecharFundo = "Not"
+     
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Configurações / Fundo -")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Customize o fundo da tela com essa configuração, apenas digite uma das opções abaixo:")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Digite Cor do Fundo para mudar a cor do fundo")
+       TextWindow.WriteLine("- Digite Mudar Detalhes para customizar os detalhes inferiores")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("Para sair apenas digite:")
+       TextWindow.WriteLine(" ")
+       TextWindow.WriteLine("- Fechar")
+       TextWindow.WriteLine(" ")
+       ModFundo = TextWindow.Read()
+       TextWindow.Clear()
+       
+       If ModFundo = "Cor do Fundo" Then
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("- Configurações / Fundo / Cor do Fundo -")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("As cores disponiveis são:")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("Red = Vermelho")
+         TextWindow.WriteLine("Yellow = Amarelo")
+         TextWindow.WriteLine("Blue = Azul")
+         TextWindow.WriteLine("Green = Verde")
+         TextWindow.WriteLine("Magenta = Magenta")
+         TextWindow.WriteLine("Cyan = Ciano")
+         TextWindow.WriteLine("Gray = Cinza")
+         TextWindow.WriteLine("White = Branco")
+         TextWindow.WriteLine("DarkRed = Vermelho Escuro")
+         TextWindow.WriteLine("DarkYellow = Amarelo Escuro")
+         TextWindow.WriteLine("DarkBlue = Azul Escuro")
+         TextWindow.WriteLine("DarkGreen = Verde Escuro")
+         TextWindow.WriteLine("DarkGray = Cinza Escuro")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("----------------")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("Digite a cor desejada em sua forma em Inglês como está na lista:")
+         CorFundo = TextWindow.Read()
+         TextWindow.Clear()
+         
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("- Configurações / Fundo / Cor do Fundo / " + CorFundo + " -")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("A Cor desejada é " + CorFundo + ", avisando que se ela não estiver na lista de cores, o programa deve apresentar erros.")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("Clique em Enter para prosseguir")
+         TextWindow.Read()
+         TextWindow.Clear()
+         TextWindow.Hide()
+         
+         GraphicsWindow.BackgroundColor = CorFundo
+         
+       EndIf
+       
+       If ModFundo =  "Mudar Detalhes" Then
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("- Configurações / Fundo / Mudar Detalhes -")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("As cores disponiveis são:")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("Red = Vermelho")
+         TextWindow.WriteLine("Yellow = Amarelo")
+         TextWindow.WriteLine("Blue = Azul")
+         TextWindow.WriteLine("Green = Verde")
+         TextWindow.WriteLine("Magenta = Magenta")
+         TextWindow.WriteLine("Cyan = Ciano")
+         TextWindow.WriteLine("Gray = Cinza")
+         TextWindow.WriteLine("White = Branco")
+         TextWindow.WriteLine("DarkRed = Vermelho Escuro")
+         TextWindow.WriteLine("DarkYellow = Amarelo Escuro")
+         TextWindow.WriteLine("DarkBlue = Azul Escuro")
+         TextWindow.WriteLine("DarkGreen = Verde Escuro")
+         TextWindow.WriteLine("DarkGray = Cinza Escuro")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("----------------")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("Digite a cor desejada em sua forma em Inglês como está na lista:")
+         CorDetalhes = TextWindow.Read()
+         TextWindow.Clear()
+         
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("- Configurações / Fundo / Cor do Fundo / " + CorDetalhes + " -")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("A Cor desejada é " + CorDetalhes + ", avisando que se ela não estiver na lista de cores, o programa deve apresentar erros.")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("Clique em Enter para prosseguir")
+         TextWindow.Read()
+         TextWindow.Clear()
+         TextWindow.Hide()
+       EndIf
+       
+       If ModFundo = "Fechar" Then
+         FecharFundo = "Yes"
+         TextWindow.Clear()
+         TextWindow.Hide()
+       EndIf
+       
+       EndWhile
+        
+      EndIf
+      
+      If Opção = "Reiniciar" Then ' --------------------------
+        DigitouCerto = "Yes"
+        
+PXporClique = 1
+
+Cima = "W"
+Baixo = "S"
+Esquerda = "A"
+Direita = "D"
+
+AumentaH = "O"
+DiminueH = "I"
+AumentaW = "L"
+DiminueW = "K"
+
+AumentarF = "M"
+DiminueF = "N"
+
+TrasCor = "Q"
+FrenteCor = "E"
+
+LigarOuDesligarModTela = "Z"
+
+CopiarQuadrilatero = "Space"
+DeletarQuadrilatero = "Back"
+
+StartTutorial = "P"
+StartConfiguracoes = "LeftCtrl"
+
+CorFundo = "White"
+CorDetalhes = "Black"
+
+        TextWindow.WriteLine(" ")
+        TextWindow.WriteLine("- Configurações / Reiniciar -")
+        TextWindow.WriteLine(" ")
+        TextWindow.WriteLine("Todas as opções foram reiniciadas com sucesso!")
+        TextWindow.WriteLine(" ")
+        TextWindow.WriteLine("Digite enter para prosseguir...")
+        TextWindow.Read()
+        TextWindow.Clear()
+        TextWindow.Hide()
+      EndIf
+      
+      
+       If DigitouCerto = "Not" Then
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("- Configurações / Erro / Digitou Errado -")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("Infelismente não entendemos o que digitou, busque digitar exatamente como está na lista de Ver Opções.")
+         TextWindow.WriteLine("[Você está saindo das configurações]")
+         TextWindow.WriteLine(" ")
+         TextWindow.WriteLine("Clique enter para prosseguir...")
+         TextWindow.Read()
+         TextWindow.Clear()
+         TextWindow.Hide()
+       EndIf
+ EndIf
+ 
+  ' Tutorial do programa +--------------------------------------------------------------------------+
+  
+  If GraphicsWindow.LastKey = StartTutorial Then
+    
+    TextWindow.Title = "Tutorial de Sandbox of Squares"
+    
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("- Tutorial -")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Seja bem-vindo(a) ao tutorial de Sandbox of Squares")
+    TextWindow.WriteLine("Onde você pode manipular quadrados de retângulos")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Clique enter para prosseguir")
+    TextWindow.Read()
+    TextWindow.Clear()
+    
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("- Tutorial -")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Para mover seu quadrilátero clique em:")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("W - Para cima")
+    TextWindow.WriteLine("S - Para baixo")
+    TextWindow.WriteLine("A - Para esquerda")
+    TextWindow.WriteLine("D - Para direita")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Clique enter para prosseguir")
+    TextWindow.Read()
+    TextWindow.Clear()
+    
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("- Tutorial -")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Para manipular a altura e a largura de seu quadrilátero clique em:")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("O - Aumentar altura")
+    TextWindow.WriteLine("I - Diminuir altura")
+    TextWindow.WriteLine("L - Aumentar largura")
+    TextWindow.WriteLine("K - Diminuir largura")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Clique enter para prosseguir")
+    TextWindow.Read()
+    TextWindow.Clear()
+    
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("- Tutorial -")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Para mudar a cor de seu quadrilátero clique em Q e E")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Clique enter para prosseguir")
+    TextWindow.Read()
+    TextWindow.Clear()
+    
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("- Tutorial -")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Clique em Space para criar outro quadrilátero")
+    TextWindow.WriteLine("Mas, você só pode ter 7 quadriláteros na tela")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Clique em Back para deletar seus quadriláteros")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Clique enter para prosseguir")
+    TextWindow.Read()
+    TextWindow.Clear()
+    
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("- Tutorial -")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Também tem o modo editar janela, ativado ao clicar em Z")
+    TextWindow.WriteLine("Esse modo permite você mudar o tamanho de altura e largura clicando em:")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("O - Aumentar altura")
+    TextWindow.WriteLine("I - Diminuir altura")
+    TextWindow.WriteLine("L - Aumentar altura")
+    TextWindow.WriteLine("K - Diminuir altura")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Desative o modo clicando novamente em Z")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Clique enter para prosseguir")
+    TextWindow.Read()
+    TextWindow.Clear()
+    
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("- Tutorial -")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Além de tudo isso, há como mudar a espessura da linha clicando em N e M")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Clique enter para prosseguir")
+    TextWindow.Read()
+    TextWindow.Clear()
+    
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("- Tutorial -")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("E, clicando em Ctrl você abre as configurações, onde pode mudar muitas coisas")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Clique enter para prosseguir")
+    TextWindow.Read()
+    TextWindow.Clear()
+    
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("- Tutorial -")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Apague com mais cuidado com o modo Borracha, clicando em B para ligar e clicando denovo para desligar")
+    TextWindow.WriteLine("Aumente a espessura da borracha clicando em A e diminuindo a mesma clicando em S")
+    TextWindow.WriteLine("Desfaça a borracha mechendo o seu quadrilátero")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Clique enter para prosseguir")
+    TextWindow.Read()
+    TextWindow.Clear()
+    
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("- Tutorial -")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Este é o fim desse tutorial, agora clique em enter para jogar")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Clique enter para prosseguir")
+    TextWindow.Read()
+    TextWindow.Hide()
+    
+  EndIf
+  
+  If GraphicsWindow.LastKey = "B" Then
+    GraphicsWindow.ShowMessage("Modo Borracha Ligado", "Aviso")
+    GraphicsWindow.MouseMove = Borracha
+    ModBorracha = "Yes"
+  EndIf
+  
+Else
+  
+  ' =======================================
+  
+  ' Modo Borracha
+  
+  If GraphicsWindow.LastKey = "B" Then
+    ModBorracha = "Not"
+    GraphicsWindow.ShowMessage("Modo Borracha Desligado", "Aviso")
+  EndIf
+  
+  If GraphicsWindow.LastKey = "A" Then
+    Wellipse = Wellipse + 1
+    Hellipse = Hellipse + 1
+  EndIf
+  
+  If GraphicsWindow.LastKey = "S" Then
+    Wellipse = Wellipse - 1
+    Hellipse = Hellipse - 1
+  EndIf
+  
+EndIf'
+  
+  '=====================================
+  
+  ' LIMITES DO USUÁRIO
+  
+  
+  
+  If X < 0 Then
+    X = 1
+    GraphicsWindow.ShowMessage("Opa, não saia da janela", "Erro")
+  EndIf
+  
+  If X > GraphicsWindow.Width - W Then
+    X = 99
+    GraphicsWindow.ShowMessage("Opa, não saia da janela", "Erro")
+  EndIf
+  
+  If Y < 0 Then
+    Y = 1
+    GraphicsWindow.ShowMessage("Opa, não saia da janela", "Erro")
+  EndIf
+  
+  If Y > GraphicsWindow.Height - 65 - H Then
+    Y = 99
+    GraphicsWindow.ShowMessage("Opa, não saia da janela", "Erro")
+  EndIf
+  
+  If H < 2 Then
+    H = 2
+    GraphicsWindow.ShowMessage("Epa, isso tá muito fino", "Erro")
+  EndIf
+  
+  If W < 2 Then
+    W = 2
+    GraphicsWindow.ShowMessage("Epa, isso tá muito pequeno", "Erro")
+  EndIf
+  
+  If F < 1 Then
+    F = 1
+    GraphicsWindow.ShowMessage("Nossa isso tá muito fino, acho que esse é o limite", "Erro")
+  EndIf
+  
+  If HT < 100 Then
+    HT = 110
+    GraphicsWindow.ShowMessage("A Janela está muito pequena, expande-a", "Erro")
+  EndIf
+  
+  If WT < 100 Then
+    WT = 110
+    GraphicsWindow.ShowMessage("A Janela está muito pequena, expande-a", "Erro")
+  EndIf
+  
+  If Wellipse < 1 Then
+    Wellipse = 1
+    GraphicsWindow.ShowMessage("A Borracha já está pequena o suficiente", "Erro")
+  EndIf
+  
+  
+  ' ===============================
+  
+  ' ÁREA DOS CLONES
+  
+  
+  ' Armazenado informações dos quadriláteros
+  
+  If GraphicsWindow.LastKey = "Space" Then
+    Q = Q + 1
+    If Q = 2 Then
+      F1 = F
+      X1 = X
+      Y1 = Y
+      W1 = W
+      H1 = H
+      Color1 = Color
+    EndIf
+    
+    If Q = 3 Then
+      F2 = F
+      X2 = X
+      Y2 = Y
+      W2 = W
+      H2 = H
+      Color2 = Color
+    EndIf
+    
+    If Q = 4 Then
+      F3 = F
+      X3 = X
+      Y3 = Y
+      W3 = W
+      H3 = H
+      Color3 = Color
+    EndIf
+    
+    If Q = 5 Then
+      F4 = F
+      X4 = X
+      Y4 = Y
+      W4 = W
+      H4 = H
+      Color4 = Color
+    EndIf
+    
+    If Q = 6 Then
+      F5 = F
+      X5 = X
+      Y5 = Y
+      W5 = W
+      H5 = H
+      Color5 = Color
+    EndIf
+    
+    If Q = 7 Then
+      F6 = F
+      X6 = X
+      Y6 = Y
+      W6 = W
+      H6 = H
+      Color6 = Color
+    EndIf
+    
+    GraphicsWindow.Clear()
+    
+    If Q <= 7 Then
+      GraphicsWindow.ShowMessage("Quadrilátero criado com sucesso, " + Q + " de 7", "Atenção")
+    Else
+      GraphicsWindow.ShowMessage("Você só pode ter 7 quadriláteros na tela", "Erro")
+    EndIf
+  EndIf
+  
+   
+  If GraphicsWindow.LastKey = "Back" Then
+    If Q > 1 Then
+      GraphicsWindow.ShowMessage(Q - 1 + " quadriláteros deletados com sucesso", "Atenção")
+      Q = 1
+    Else
+      GraphicsWindow.ShowMessage("Você só pode deletar se tiver mais que um quadrilátero", "Erro")
+    EndIf
+  EndIf
+  
+    
+  
+  ' ===============================
+  
+  ' Desenhando os quadriláteros
+  
+  If Q > 1 Then
+    GraphicsWindow.PenWidth = F1
+    GraphicsWindow.PenColor = Color1
+    GraphicsWindow.DrawRectangle(X1, Y1, W1, H1)
+  EndIf
+  
+  If Q > 2 Then
+    GraphicsWindow.PenWidth = F2
+    GraphicsWindow.PenColor = Color2
+    GraphicsWindow.DrawRectangle(X2, Y2, W2, H2)
+  EndIf
+  
+  If Q > 3 Then
+    GraphicsWindow.PenWidth = F3
+    GraphicsWindow.PenColor = Color3
+    GraphicsWindow.DrawRectangle(X3, Y3, W3, H3)
+  EndIf
+  
+  If Q > 4 Then
+    GraphicsWindow.PenWidth = F4
+    GraphicsWindow.PenColor = Color4
+    GraphicsWindow.DrawRectangle(X4, Y4, W4, H4)
+  EndIf
+  
+  If Q > 5 Then
+    GraphicsWindow.PenWidth = F5
+    GraphicsWindow.PenColor = Color5
+    GraphicsWindow.DrawRectangle(X5, Y5, W5, H5)
+  EndIf
+  
+  If Q > 6 Then
+    GraphicsWindow.PenWidth = F6
+    GraphicsWindow.PenColor = Color6
+    GraphicsWindow.DrawRectangle(X6, Y6, W6, H6)
+  EndIf
+  
+  ' ==============================
+  
+  GraphicsWindow.PenWidth = F
+  GraphicsWindow.PenColor = Color
+  GraphicsWindow.DrawRectangle(X, Y, W, H)
+  
+  ' ===============================
+  
+  ' Detalhes da região inferior
+  
+  GraphicsWindow.PenColor = CorDetalhes
+  GraphicsWindow.BrushColor = CorDetalhes
+  
+  If ModBorracha = "Not" Then
+  GraphicsWindow.FontSize = 9
+  If ModTela = "Not" Then
+  GraphicsWindow.PenWidth = 2
+  GraphicsWindow.DrawLine(5 , GraphicsWindow.Height - 65, GraphicsWindow.Width - 5, GraphicsWindow.Height - 65)
+  GraphicsWindow.DrawText(30, GraphicsWindow.Height - 50, "X = " + X + " / Y = " + Y + " / Height = " + H + " / Width = " + W + " / Espessura = " + F + " / Color = " + Color)
+  GraphicsWindow.DrawText(30, GraphicsWindow.Height - 35, "Clique na tecla " + StartTutorial + " para fazer um tutorial")
+  GraphicsWindow.PenWidth = F
+  Else
+  GraphicsWindow.DrawText(30, GraphicsWindow.Height - 50, "Modo editar tela ativado / Largura = " + WT + " / Altura = " + HT)
+  EndIf
+  
+Else
+  
+  Raio = Wellipse / 2
+  GraphicsWindow.DrawText(30, GraphicsWindow.Height - 50, "Modo Borracha Ativado / Tamanho = " + Wellipse + " / Área = " + Raio*Raio*Math.Pi )
+  
+EndIf
+
+
+EndSub
+
+GraphicsWindow.Width = WT
+GraphicsWindow.Height = HT
+
+' ==================================
+
+' MODO BORRACHA
+
+Sub Borracha
+  If ModBorracha = "Yes" Then
+  GraphicsWindow.BrushColor = CorFundo
+  GraphicsWindow.FillEllipse(GraphicsWindow.MouseX - Wellipse / 2,GraphicsWindow.MouseY - Wellipse / 2, Wellipse, Hellipse)
+  EndIf
+EndSub
+

@@ -1,0 +1,401 @@
+
+' CÓDIGO DE LIMITED
+'===========================================
+
+' SÚMARIO DE BLOCOS
+
+' Tutorial do jogo
+' Área da revelação
+' Área da manipulação das cordenadas
+' Área da movimentação
+' Imprimundo detalhes loc. na parte inferior
+' Caso você perca
+' Caso você ganhe
+
+' ===========================================
+
+' TUTORIAL DO JOGO
+
+' Essa variavel vai falar se o jogo continua
+ExecutarJogo = "Yes"
+
+' Titulo do Projeto
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("- LIMITED -")
+TextWindow.WriteLine(" ")
+
+' Boas-Vindas
+TextWindow.WriteLine("Saudações, seja bem-vindo ao Limited")
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("Digite qualquer coisa para prosseguir...")
+TextWindow.Read()
+
+' Limpar janela
+TextWindow.Clear()
+
+' Informando o objetivo
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("Seu Objetivo é chegar na Chegada que está Marcada com um [C]")
+TextWindow.WriteLine("Mas, ela só aparece no começo do jogo, então você deve decorar onde ela está.")
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("Digite qualquer coisa para prosseguir...")
+TextWindow.Read()
+
+' Limpar janela
+TextWindow.Clear()
+
+' Informando como perder
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("Ainda por cima, você é limitado, e só pode se mover algumas vezes") 
+TextWindow.WriteLine("Se você se mover mais do que isso, você perde.")
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("Digite qualquer coisa para prosseguir...")
+TextWindow.Read()
+
+' Limpar janela
+TextWindow.Clear()
+
+' Informando como se mover
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("Para se mover, apenas escreva:")
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine(" w - Para ir para cima")
+TextWindow.WriteLine(" s - Para ir para baixo")
+TextWindow.WriteLine(" d - Para ir para direita")
+TextWindow.WriteLine(" a = Para ir para esquerda")
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("Digite qualquer coisa para prosseguir...")
+TextWindow.Read()
+
+' Limpar Janela
+TextWindow.Clear()
+
+' Começar o jogo
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("Vamos Comerçar!")
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("Digite qualquer coisa para prosseguir...")
+TextWindow.Read() 
+
+While (ExecutarJogo = "Yes")
+
+' Limpar janela
+TextWindow.Clear()
+
+'===========================================
+
+' ÁREA DA REVELAÇÃO
+
+' Revelação do nivel 1 ------------------------------------
+
+' Revelação da Chegada
+
+' Verificando se você está no nivel 1
+If Level = 1 Then
+  
+' Imprimindo o titulo
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("- LIMITED -  /  Revelação da Chegada")
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine(" ")
+
+' Definindo a posição de C
+For g = 0 To 10
+  TextWindow.Write(" ")
+EndFor
+
+' Imprimindo a chegada (C)
+TextWindow.WriteLine("C")
+
+' Pulando linhas para prosseguir
+For h = 0 To 10
+  TextWindow.WriteLine(" ")
+EndFor
+
+' Dando a opção de prosseguir
+TextWindow.WriteLine("Digite qualquer coisa para prosseguir...")
+EndIf
+
+' Revelação do Nivel 2 -------------------------------------
+
+' Revelação da Chegada
+If Level = 2 Then
+  
+  ' Imprimindo o titulo
+  TextWindow.WriteLine(" ")
+  TextWindow.WriteLine("- LIMITED -  /  Revelação da Chegada")
+  TextWindow.WriteLine(" ")
+  TextWindow.WriteLine(" ")
+  
+  ' Definindo a posição X de C
+  For g = 0 To 6
+    TextWindow.Write(" ")
+  EndFor
+  
+  ' Imprimindo a chegada (C)
+  TextWindow.WriteLine("C")
+  
+  ' Pulando linhas para prosseguir
+  For h = 0 To 10
+    TextWindow.WriteLine(" ")
+  EndFor
+  
+  ' Dando a opção de prosseguir
+  TextWindow.WriteLine("Digite qualquer coisa para prosseguir...")
+  TextWindow.Read()
+  
+  ' Limpar janela
+  TextWindow.Clear()
+  
+  ' Revelação dos Espinhos
+  TextWindow.WriteLine(" ")
+  TextWindow.WriteLine("- LIMITED -  /  Revelação dos Espinhos")
+  TextWindow.WriteLine(" ")
+  TextWindow.WriteLine(" ")
+  
+  ' Definindo a posisão dos Es
+  
+  ' Mudando a cordenada X dando espaços
+  For h = 0 To 3
+    TextWindow.Write(" ")
+  EndFor
+  
+  ' Imprimindo o primeiro E
+  TextWindow.WriteLine("E")
+  
+  ' Iniciando o Loop de impressão de Es
+  For f = 0 To 2
+    
+    ' Mudando a cordenada X dando espaços
+    For h = 0 To 3
+      TextWindow.Write(" ")
+    EndFor
+    
+    ' Imprimindo Es
+    TextWindow.WriteLine("E")
+    
+  EndFor
+    
+    ' Pulando linhas para prosseguir
+    For h = 0 To 6
+      TextWindow.WriteLine(" ")
+    EndFor
+    
+    ' Dando a opção de prosseguir
+    TextWindow.WriteLine("Digite qualquer coisa para prosseguir...")
+    TextWindow.Read()
+    
+  
+EndIf
+
+'============================================
+  
+' ÁREA DA MANIPULAÇÃO DAS CORDENADAS
+
+' Defenifinindo as vareaveis
+FimDeJogo = "No"
+Level = 1
+Turnos = 100000000
+X = 0
+Y = 0
+S = 9
+
+' Loop do jogo
+While (FimDeJogo = "No")
+  
+  ' Selecionando a direção
+  Direcao = TextWindow.Read()
+  TextWindow.Clear()
+  
+  ' Imprimindo o titulo
+  TextWindow.WriteLine(" ")
+  TextWindow.WriteLine("- LIMITED -")
+  TextWindow.WriteLine(" ")
+  
+  ' Caso queira ir para cima -----------------------------
+  If Direcao = "w" Then
+    
+    ' Mudando a altura para ir para cima
+    Y = Y-1
+    
+    ' Calculando a quantidade de espaço abaixo
+    S = S+1
+    
+    ' Diminuindo a quantidade de turnos
+    Turnos = Turnos-1
+    
+  EndIf
+  
+  ' Caso queira ir para baixo ------------------------------
+  If Direcao = "s" Then
+    
+    ' Mudando a altura para ir para baixo
+    Y = Y+1
+    
+    ' Calculando a quantidade de espaço abaixo
+    S = S-1
+    
+    ' Diminuindo a quantidade de turnos
+    Turnos = Turnos-1
+    
+  EndIf
+  
+  ' Caso queira ir para direita -----------------------------
+  If Direcao = "d" Then
+    
+    ' Mudando o comprimento para ir para direita
+    X = X+1
+    
+    ' Diminuindo a quantidade de turnos
+    Turnos = Turnos-1
+    
+  EndIf
+  
+  ' Caso queira ir para esquerda -------------------------------
+  If Direcao = "a" Then
+    
+    ' Mudando o Comprimento para ir para esquerda
+    X = X-1
+    
+    ' Diminuindo a quantidade de turnos
+    Turnos = Turnos-1
+    
+  EndIf
+  
+  ' =======================================
+  
+  '  ÁREA DA MOVIMENTAÇÃO
+  
+  ' Pulando linhas para se movimenta na cordenada Y
+  For i = 0 To Y
+    TextWindow.WriteLine(" ")
+  EndFor
+  
+  ' Digitando espaços para se movimentar na cordenada X
+  For j = 0 To X
+    TextWindow.Write(" ")
+  EndFor
+  
+  ' Imprimindo o personagem X
+  TextWindow.WriteLine("X")
+  
+  '========================================
+  
+  ' IMPRIMINDO DETALHES LOCALIZADOS NA PARTE INFERIOR
+  
+  ' Pulando linhas para a impresão dos detalhes
+  For k = 0 To S
+    TextWindow.WriteLine(" ")
+  EndFor
+  
+  ' Digitando uma linha para separe a área do jogo com a dos detalhes inferiores
+  TextWindow.WriteLine("----------------------------------------")
+  TextWindow.WriteLine(" ")
+  ' Imprimindo detalhes
+  TextWindow.WriteLine("Qual direção devo seguir?    /    Turnos: " + Turnos + "    /    Cordenada: X - " + X + " e Y - " + Y)
+  TextWindow.WriteLine(" ")
+  
+  '=========================================
+  
+  ' CASO VOCÊ PERCA
+  
+  ' Você perdeu no nivel 1 ---------------------------------
+  
+  ' Verificando se você perdeu
+  If Turnos = 0 Then
+    ' Caso você perder, isso será executado
+    TextWindow.Clear()
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("VOCÊ PERDEU")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("-----------------")
+    TextWindow.WriteLine(" ")
+    FimDeJogo = "Yes"
+    ExecutarJogo = "No"
+  EndIf
+  
+  ' Você perdeu no nivel 2 com espinhos -----------------------------------
+  
+  ' Verificando se você perdeu no nivel 2
+  If Level = 2 Then
+    
+    ' Verificando se você está na mesma cordenada Y que os espinhos
+    If Y = 0 Or Y = 1 Or Y = 2 Or Y = 3 Then 
+      EspinhoC2 = "Yes"
+    EndIf
+    
+    ' Verificando se você pisou no espinho
+    If EspinhoC2 = "Yes" And X = 3 Then
+      ' Caso você perder, isso será executado
+      TextWindow.Clear()
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine("VOCÊ PERDEU")
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine("-----------------")
+      TextWindow.WriteLine(" ")
+      FimDeJogo = "Yes"
+      ExecutarJogo = "No"
+    EndIf
+    
+    
+  EndIf  
+  '==========================================
+  
+  ' CASO VOCÊ GANHE
+  
+  ' Verificando se você ganhou
+  If X = 10 And Y = 0 Then
+    TextWindow.Clear()
+    TextWindow.WriteLine(" ") 
+    TextWindow.WriteLine("- VOCÊ PASSOU -")
+    TextWindow.WriteLine("Você achou a Chegada e passo para o nivel 2")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("-----------------")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Digite qualquer coisa para continuar")
+    TextWindow.Read()
+    ExecutarJogo = "Yes"
+    FimDeJogo = "Yes"
+    Level = Level+1
+    
+    'Começo do Nivel 2 --------------------------------
+    
+    ' Verificando se você terminou o nivel 1
+    If Level = 2 Then
+      ' Dando parabéns por completar
+    TextWindow.Clear()
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("- NIVEL 2 -")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Você passou de nivel, agora as coisas vão dificultar")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Digite qualquer coisa para continuar")
+    TextWindow.Read()
+    TextWindow.Clear()
+    
+    ' Apresentando os espinhos
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Vamos ver se você se consegue lidar com espinhos")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Digite qualquer coisa para continuar")
+    TextWindow.Read()
+    TextWindow.Clear()
+    
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Eles aparecem no começo da fase, que nem a chegada")
+    TextWindow.WriteLine("Mas, se você pisar você perde")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Digite qualquer coisa para continuar")
+    TextWindow.Read()
+    TextWindow.Clear()
+    
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("A chave da vitória é decorar onde eles ficam, Boa Sorte")
+    TextWindow.WriteLine(" ")
+    TextWindow.WriteLine("Digite qualquer coisa para continuar")
+    TextWindow.Read()
+    EndIf
+  EndIf
+  
+EndWhile
+EndWhile

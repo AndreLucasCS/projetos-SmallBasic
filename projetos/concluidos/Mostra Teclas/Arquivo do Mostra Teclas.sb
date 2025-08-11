@@ -1,0 +1,7 @@
+
+GraphicsWindow.KeyDown = MostrarTecla
+
+Sub MostrarTecla
+  GraphicsWindow.ShowMessage(GraphicsWindow.LastKey," ")
+EndSub
+  

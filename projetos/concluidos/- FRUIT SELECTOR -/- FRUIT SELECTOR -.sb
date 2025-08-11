@@ -1,0 +1,241 @@
+
+' Titulo do Projeto
+TextWindow.Title = "- FRUIT SELECTOR -"
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("- FRUIT SELECTOR -")
+TextWindow.WriteLine(" ")
+TextWindow.ForegroundColor = "Green"
+' Boas-Vindas
+TextWindow.WriteLine("Olá, seja bem vindo ao Fruit Selector")
+TextWindow.WriteLine(" ")
+' Digitando o Nome
+TextWindow.WriteLine("Qual é o seu nome:")
+TextWindow.ForegroundColor = "White"
+Nome = TextWindow.Read()
+' Selecione as Frutas
+TextWindow.Clear()
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("- FRUIT SELECTOR -")
+TextWindow.ForegroundColor = "DarkBlue"
+TextWindow.WriteLine(" ")
+' Perguntando o Que Deseja
+TextWindow.Write(Nome)
+TextWindow.Write(" o que você deseja?")
+TextWindow.Write("        (Escreva X maiusculo para Selecionar!)")
+TextWindow.WriteLine(" ")
+' Selecione os Itens Desejados
+TextWindow.ForegroundColor = "DarkBlue"
+TextWindow.WriteLine("-----------------")
+TextWindow.WriteLine("Laranja")
+TextWindow.ForegroundColor = "White"
+Laranja = TextWindow.Read()
+TextWindow.ForegroundColor = "DarkBlue
+TextWindow.WriteLine("-----------------")
+TextWindow.WriteLine("Maçã")
+TextWindow.ForegroundColor = "White"
+Maça = TextWindow.Read()
+TextWindow.ForegroundColor = "DarkBlue"
+TextWindow.WriteLine("-----------------")
+TextWindow.WriteLine("Banana")
+TextWindow.ForegroundColor = "White"
+Banana = TextWindow.Read()
+TextWindow.ForegroundColor = "DarkBlue"
+
+Compra = 0
+QBananas = 0
+QMaça = 0
+QLaranjas = 0
+
+TextWindow.Clear()
+TextWindow.ForegroundColor = "White"
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("- FRUIT SELECTOR -")
+TextWindow.WriteLine(" ")
+
+' Executar Caso Escolha a Banana:
+If Banana = "X" Then 
+  TextWindow.ForegroundColor = "Yellow"
+  Compra = Compra + 1
+  ' Insira a Quantidade
+  TextWindow.WriteLine("Por Favor insira a quantidade de bananas:")
+  TextWindow.ForegroundColor = "White"
+  QBananas = TextWindow.ReadNumber()
+  TextWindow.ForegroundColor = "Yellow"
+  ' Caso você escolher muitas bananas
+  If QBananas > 70 Then
+    TextWindow.ForegroundColor = "Red"
+    TextWindow.WriteLine("Infelizmente não temos a quantidade desejada no estoque")
+    TextWindow.WriteLine("Por favor pedir uma quantidade menor:")
+    TextWindow.WriteLine(" ")
+    TextWindow.ForegroundColor = "White"
+    QBananas = TextWindow.ReadNumber()
+    ' Caso Você Continue Escolhendo um Número Alto de Frutas
+    If QBananas > 70 Then
+      TextWindow.ForegroundColor = "Red"
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine("A quantidade desejada continua maior que a que temos no estoque")
+      Banana = "Erro"
+      Maça = "Erro"
+      Laranja = "Erro"
+      Compra = 0
+      QBananas = "NEM UMA"
+      TextWindow.WriteLine("Digite Qualquer Coisa se Entendeu:")
+      TextWindow.ForegroundColor = "White"
+      TextWindow.Read()
+      EndIf
+  EndIf
+  ' Mensagem Finalizando
+  TextWindow.ForegroundColor = "Yellow"
+  TextWindow.Write(" - ENVINDO ")
+  TextWindow.Write(QBananas)
+  TextWindow.Write(" DE BANANAS PARA ")
+  TextWindow.Write(Nome)
+  TextWindow.WriteLine(" -")
+  TextWindow.WriteLine(" ")
+EndIf
+
+' Executa Caso Você Escolher Maçã:
+If Maça = "X" Then
+  TextWindow.ForegroundColor = "DarkRed"
+  Compra = Compra + 1
+  ' Insira a Quantidade
+  TextWindow.WriteLine("Por Favor insira a quantidade de maçãs:")
+  TextWindow.ForegroundColor = "White"
+  QMaças = TextWindow.ReadNumber()
+  TextWindow.ForegroundColor = "DarkRed"
+  ' Caso escolhas muitas Maçãs
+  If QMaças > 80 Then
+    TextWindow.ForegroundColor = "Red"
+    TextWindow.WriteLine("Infelizmente não temos a quantidade desejada no estoque")
+    TextWindow.WriteLine("Por favor pedir uma quantidade menor:")
+    TextWindow.WriteLine(" ")
+    TextWindow.ForegroundColor = "White"
+    QMaças = TextWindow.ReadNumber()
+    ' Caso Você Continue Escolhendo um Número Alto de Frutas
+    If QMaças > 80 Then
+      TextWindow.ForegroundColor = "Red"
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine("A quantidade desejada continua maior que a que temos no estoque")
+      Banana = "Erro"
+      Maça = "Erro"
+      Laranja = "Erro"
+      Compra = 0
+      QMaças = "NEM UMA"
+      TextWindow.WriteLine("Digite Qualquer Coisa se Entendeu:")
+      TextWindow.ForegroundColor = "White"
+      TextWindow.Read()
+      EndIf
+  EndIf
+  ' Mensagem Finalizando
+  TextWindow.ForegroundColor = "DarkRed"
+  TextWindow.Write(" - ENVINDO ")
+  TextWindow.Write(QMaças)
+  TextWindow.Write(" DE MAÇÃS PARA ")
+  TextWindow.Write(Nome)
+  TextWindow.WriteLine(" -")
+  TextWindow.WriteLine(" ")
+EndIf
+
+' Executa Caso Escolha Laranja:
+If Laranja = "X" Then
+  TextWindow.ForegroundColor = "DarkYellow"
+  Compra = Compra + 1
+  ' Insira a Quantidade
+  TextWindow.WriteLine("Por Favor insira a quantidade de laranjas:")
+  TextWindow.ForegroundColor = "White"
+  QLaranjas = TextWindow.ReadNumber()
+  TextWindow.ForegroundColor = "DarkYellow"
+  ' Caso Escolha Muitas Laranjas
+  If QLaranjas > 70 Then
+    TextWindow.ForegroundColor = "Red"
+    TextWindow.WriteLine("Infelizmente não temos a quantidade desejada no estoque")
+    TextWindow.WriteLine("Por favor pedir uma quantidade menor:")
+    TextWindow.WriteLine(" ")
+    TextWindow.ForegroundColor = "White"
+    QLaranjas = TextWindow.ReadNumber()
+    ' Caso Você Continue Escolhendo um Número Alto de Frutas
+    If QLaranjas > 70 Then
+      TextWindow.ForegroundColor = "Red"
+      TextWindow.WriteLine(" ")
+      TextWindow.WriteLine("A quantidade desejada continua maior que a que temos no estoque")
+      Banana = "Erro"
+      Maça = "Erro"
+      Laranja = "Erro"
+      Compra = 0
+      QLaranjas = "NEM UMA"
+      TextWindow.WriteLine("Digite Qualquer Coisa se Entendeu:")
+      TextWindow.ForegroundColor = "White"
+      TextWindow.Read()
+      EndIf
+  EndIf
+  ' Mensagem Finalizando
+  TextWindow.ForegroundColor = "DarkYellow"
+  TextWindow.Write(" - ENVINDO ")
+  TextWindow.Write(QLaranjas)
+  TextWindow.Write(" DE LARANJAS PARA ")
+  TextWindow.Write(Nome)
+  TextWindow.WriteLine(" -")
+  TextWindow.WriteLine(" ")
+EndIf
+
+' Limpando a Janela Para a Execusão da Compra
+TextWindow.Clear()
+TextWindow.ForegroundColor = "White"
+TextWindow.WriteLine(" ")
+TextWindow.WriteLine("- FRUIT SELECTOR -")
+
+' Comprando
+If Compra > 0 And QBananas + QLaranjas + QMaças > 0 Then
+  ' Mensagem das Frutas Escolhidas
+  TextWindow.ForegroundColor = "DarkBlue"
+  TextWindow.WriteLine(" ")
+  TextWindow.WriteLine("---------------")
+  TextWindow.WriteLine(" ")
+  TextWindow.Write("Você Escolheu ")
+  TextWindow.Write(Compra)
+  TextWindow.Write(" Fruta(s)")
+  TextWindow.WriteLine(".")
+  ' Informando o Valor a Pagar
+  TextWindow.WriteLine("TOTAL A PAGAR:")
+  TextWindow.ForegroundColor = "White"
+  Pagar = QBananas*4 + QMaças*2 + QLaranjas*2
+  TextWindow.Write(Pagar)
+  TextWindow.Write(" de Reais")
+  TextWindow.WriteLine(".")
+  TextWindow.ForegroundColor = "DarkBlue"
+  TextWindow.WriteLine(" ")
+  ' Perguntando a Forma de Pagamento
+  TextWindow.WriteLine("Qual é a Forma de Pagamento?  /  Pix, Débito ou Crédito")
+  TextWindow.ForegroundColor = "White"
+  FPagar = TextWindow.Read()
+  TextWindow.ForegroundColor = "DarkBlue"
+  TextWindow.WriteLine(" ")
+  ' Finalização da Compra
+  TextWindow.Write("Você acaba de comprar ")
+  Quantidade = QBananas + QMaças + QLaranjas
+  TextWindow.Write(Quantidade)
+  TextWindow.Write(" itens pela forma de pagamento ")
+  TextWindow.Write(FPagar)
+  TextWindow.Write(", agora deverá pagar um total de ")
+  TextWindow.Write(Pagar)
+  TextWindow.WriteLine(" Reais.")
+  TextWindow.WriteLine(" ")
+  TextWindow.WriteLine("Tenha um ótimo dia!")
+  TextWindow.WriteLine(" ")
+  TextWindow.WriteLine("-------------- ")
+  TextWindow.WriteLine(" ")
+  TextWindow.ForegroundColor = "White"
+Else
+  ' Caso Ocorra um Erro
+  TextWindow.Clear()
+  TextWindow.ForegroundColor = "Red"
+  TextWindow.WriteLine(" ")
+  TextWindow.WriteLine("- ERRO -")
+  TextWindow.WriteLine(" ")
+  TextWindow.WriteLine("Ocorreu um Erro, você não comprou nem um produto")
+  TextWindow.WriteLine(" ")
+  TextWindow.WriteLine("--------------")
+  TextWindow.WriteLine(" ")
+  TextWindow.ForegroundColor  = "White"
+EndIf
+  

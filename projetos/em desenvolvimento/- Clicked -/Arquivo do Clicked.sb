@@ -1,0 +1,155 @@
+' ====================================
+
+' Programa do Clicked
+
+'====================================
+
+' Mostrando e mudando a janela
+GraphicsWindow.Show()
+GraphicsWindow.Height = 600
+GraphicsWindow.Width = 500
+GraphicsWindow.Top = 50
+
+' Definindo as variaveis responsaveis pela posição dos obstaculos
+PosicaoDaLinha = 250
+YdoObstaculos = 200
+XdoObstaculos = 150
+YdoObstaculos2 = 200
+XdoObstaculos2 = 250
+YdoObstaculos3 = 200
+XdoObstaculos3 = 350
+
+' Definindo variaveis responsaveis pela camuflagem dos obstaculos
+Camuflar2 = "Black"
+Camuflar3 = "Black"
+
+Vez = 0
+
+' Verifica se o usuário perdeu
+VocePerdeu = "False"
+
+' Verificando se o obstaculo saiu
+Saiu = "False"
+
+' Ações do usuário que geram eventos
+GraphicsWindow.MouseMove = Desenhar
+GraphicsWindow.MouseDown = Clique
+Timer.Interval = 500
+Timer.Tick = Obstaculos
+
+' ============================================
+
+' EVENTOS
+
+' Ao clicar -----------------------------------------------------------
+Sub Clique
+  GraphicsWindow.Clear()
+  PosicaoDaLinha = PosicaoDaLinha + 1
+  Desenhar()
+EndSub
+
+' Desenhando na tela -----------------------------------------------
+Sub Desenhar
+  GraphicsWindow.Clear()
+  GraphicsWindow.DrawRectangle(GraphicsWindow.MouseX - 5,GraphicsWindow.MouseY - 5, 10, 10)
+  GraphicsWindow.DrawRectangle(50, 200, 400, 350)
+  GraphicsWindow.DrawLine(PosicaoDaLinha,50,PosicaoDaLinha,75)
+  
+  VerificandoSeTriscou()
+  
+EndSub
+
+' Movendo obstaculos -+-----------------------------------------------
+Sub Obstaculos
+  
+  
+  ' Fazendo os obstaculos descerem Aumentando o Y
+  YdoObstaculos = YdoObstaculos + 30
+  YdoObstaculos2 = YdoObstaculos2 + 30
+  YdoObstaculos3 = YdoObstaculos3 + 30
+  
+  ' Desenhando
+  GraphicsWindow.PenColor = "Black"
+  Desenhar()
+  GraphicsWindow.DrawRectangle(XdoObstaculos,YdoObstaculos,50,25)
+  GraphicsWindow.PenColor = Camuflar2
+  GraphicsWindow.DrawRectangle(XdoObstaculos2,YdoObstaculos2,50,25)
+  GraphicsWindow.PenColor = Camuflar3
+  GraphicsWindow.DrawRectangle(XdoObstaculos3,YdoObstaculos3,50,25)
+  GraphicsWindow.PenColor = "Black"
+  
+  ' Esperando a vez para gerar obstaculos
+  If Vez = 3 Then
+    YdoObstaculos2 = 200
+    Camuflar2 = "Blak"
+    Camuflagem = "False"
+  EndIf
+  
+  If Vez = 8 Then
+    YdoObstaculos3 = 200
+    Camuflar3 = "Black"
+    Camuflagem = "False"
+  EndIf
+  
+  ' Verificando se o obstaculo saiu do quadrado
+  If YdoObstaculos > 500 Then
+    Saiu = "True"
+    YdoObstaculos = 200
+    XdoObstaculos = Math.GetRandomNumber(300) + 50
+  EndIf
+  
+  If YdoObstaculos2 > 500 And Camuflagem = "False" Then
+    Camuflar2 = "White"
+    XdoObstaculos2 = Math.GetRandomNumber(300) + 50
+    Camuflagem = "True"
+  EndIf
+  
+  If YdoObstaculos3 > 500 And Camuflagem = "False" Then
+    Vez = 0
+    Saiu = "False"
+    Camuflar3 = "White"
+    XdoObstaculos3 = Math.GetRandomNumber(300) + 50
+    Camuflagem = "True"
+  EndIf
+  
+  If Saiu = "True" Then
+    Vez = Vez + 1
+  EndIf
+  
+  VerificandoSeTriscou()
+  
+EndSub
+
+
+Sub VerificandoSeTriscou
+  
+  ' Fazendo o Usuário perder ao triscar nos obstaculos
+  
+  If GraphicsWindow.MouseX - 5 > XdoObstaculos And GraphicsWindow.MouseX - 5 < XdoObstaculos + 50 And GraphicsWindow.MouseY - 5 > YdoObstaculos And GraphicsWindow.MouseY - 5 < YdoObstaculos + 25 Then
+    AnulandoControles()
+  EndIf
+  
+  If GraphicsWindow.MouseX - 5 > XdoObstaculos2 And GraphicsWindow.MouseX - 5 < XdoObstaculos2 + 50 And GraphicsWindow.MouseY - 5 > YdoObstaculos2 And GraphicsWindow.MouseY - 5 < YdoObstaculos2 + 25 Then
+    AnulandoControles()
+  EndIf
+  
+  If GraphicsWindow.MouseX - 5 > XdoObstaculos3 And GraphicsWindow.MouseX - 5 < XdoObstaculos3 + 50 And GraphicsWindow.MouseY - 5 > XdoObstaculos3 And GraphicsWindow.MouseY - 5 < XdoObstaculos3 + 25 Then
+    AnulandoControles()
+  EndIf
+  
+EndSub
+
+
+Sub AnulandoControles
+  Perdeu()
+  GraphicsWindow.MouseMove = Perdeu
+  GraphicsWindow.MouseDown = Perdeu
+  Timer.Pause()
+EndSub
+
+
+Sub Perdeu
+  GraphicsWindow.Clear()
+  GraphicsWindow.DrawText(30,80, "VOCÊ PERDEU!")
+EndSub
+  
